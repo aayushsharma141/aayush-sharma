@@ -18,7 +18,7 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email Us",
-    details: ["hello@luxeinteriors.com", "projects@luxeinteriors.com"],
+    details: ["hello@crossangleinterior.com", "projects@crossangleinterior.com"],
   },
   {
     icon: Clock,

@@ -37,8 +37,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <a href="#home" className="font-serif text-2xl font-bold">
-              Luxe<span className="text-primary">Interiors</span>
+            <a href="#home" className="font-serif text-2xl font-bold text-primary">
+              Crossangle <span className="text-secondary-foreground">Interior</span>
             </a>
             <p className="text-secondary-foreground/80 mt-4 mb-6 max-w-sm">
               Creating exceptional interior spaces that inspire and transform
@@ -113,7 +113,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-secondary-foreground/20 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-secondary-foreground/60 text-sm">
-            © {currentYear} Luxe Interiors. All rights reserved.
+            © {currentYear} Crossangle Interior. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
             <a href="#" className="text-secondary-foreground/60 hover:text-primary transition-colors">

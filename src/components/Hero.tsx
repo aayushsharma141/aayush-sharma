@@ -19,15 +19,15 @@ const Hero = () => {
       <div className="container mx-auto px-4 relative z-10 pt-20">
         <div className="max-w-2xl">
           <span className="inline-block text-primary font-medium mb-4 tracking-wider uppercase text-sm">
-            Award-Winning Design Studio
+            Premier Interior Design Studio
           </span>
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6">
-            Transform Your Space Into a
-            <span className="text-primary"> Masterpiece</span>
+            Elevate Your Home:
+            <span className="text-primary"> Stylish and Functional Design</span>
           </h1>
           <p className="text-primary-foreground/80 text-lg md:text-xl mb-8 leading-relaxed">
-            We create sophisticated, timeless interiors that reflect your unique
-            style and elevate your everyday living experience.
+            Transforming your vision into exquisite living spaces with innovative
+            and personalized interior design solutions.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Button size="lg" className="group">

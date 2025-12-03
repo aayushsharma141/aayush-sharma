@@ -17,8 +17,8 @@ const Navbar = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <a href="#home" className="font-serif text-2xl font-bold text-foreground">
-            Luxe<span className="text-primary">Interiors</span>
+          <a href="#home" className="font-serif text-2xl font-bold text-primary">
+            Crossangle <span className="text-foreground">Interior</span>
           </a>
 
           {/* Desktop Navigation */}
