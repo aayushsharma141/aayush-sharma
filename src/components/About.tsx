@@ -21,10 +21,10 @@ const About = () => {
               Creating Spaces That Inspire
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-              Founded in 2009, Luxe Interiors has grown from a small design
-              studio to an award-winning interior design firm. Our team of
-              passionate designers brings together diverse expertise in
-              residential, commercial, and hospitality design.
+              Welcome to Crossangle Interior, a premier interior design studio
+              where creativity meets craftsmanship. Our team of passionate designers 
+              brings together diverse expertise in residential, commercial, and 
+              hospitality design.
             </p>
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
               We believe that great design is about more than aesthetics—it's
