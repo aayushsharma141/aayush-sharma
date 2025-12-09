@@ -1,10 +1,14 @@
 import { ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-interior.jpg";
+import WaterRippleEffect from "./WaterRippleEffect";
 
 const Hero = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Water Ripple Mouse Effect */}
+      <WaterRippleEffect />
+      
       {/* Background Image with Parallax Effect */}
       <div className="absolute inset-0 z-0">
         <img
