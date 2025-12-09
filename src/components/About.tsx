@@ -1,4 +1,4 @@
-import { Award, Users, Clock, Sparkles } from "lucide-react";
+import { Award, Users, Clock, Sparkles, ArrowRight, CheckCircle } from "lucide-react";
 
 const stats = [
   { icon: Award, value: "15+", label: "Years Experience" },
@@ -7,18 +7,30 @@ const stats = [
   { icon: Sparkles, value: "25+", label: "Design Awards" },
 ];
 
+const features = [
+  "Personalized Design Approach",
+  "Premium Material Selection",
+  "On-Time Project Delivery",
+  "Post-Completion Support",
+];
+
 const About = () => {
   return (
-    <section id="about" className="py-24 bg-card">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section id="about" className="py-32 bg-card relative overflow-hidden">
+      {/* Decorative Background */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent" />
+      <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           {/* Content */}
           <div>
-            <span className="text-primary font-medium tracking-wider uppercase text-sm">
+            <span className="inline-block text-primary font-medium tracking-[0.2em] uppercase text-sm mb-4 border-b-2 border-primary pb-2">
               About Us
             </span>
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-card-foreground mt-2 mb-6">
-              Creating Spaces That Inspire
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-card-foreground mt-4 mb-8 leading-tight">
+              Creating Spaces <br />
+              <span className="text-primary">That Inspire</span>
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-6">
               Welcome to Crossangle Interior, a premier interior design studio
@@ -29,55 +41,59 @@ const About = () => {
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
               We believe that great design is about more than aesthetics—it's
               about creating environments that enhance how you live, work, and
-              feel. Every project we undertake is a collaboration, ensuring
-              your space truly reflects who you are.
+              feel.
             </p>
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {stats.map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center mx-auto mb-3">
-                    <stat.icon className="w-6 h-6 text-accent-foreground" />
+            {/* Feature List */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+              {features.map((feature, index) => (
+                <div key={index} className="flex items-center gap-3 group">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
+                    <CheckCircle className="w-4 h-4 text-primary group-hover:text-primary-foreground transition-colors" />
                   </div>
-                  <div className="font-serif text-2xl font-bold text-foreground">
+                  <span className="text-foreground font-medium">{feature}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA Button */}
+            <button className="group inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-full font-medium hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 hover:-translate-y-1">
+              Learn More About Us
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="relative">
+            {/* Background Shape */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 rounded-3xl transform rotate-3" />
+            
+            <div className="relative grid grid-cols-2 gap-6 p-8">
+              {stats.map((stat, index) => (
+                <div 
+                  key={index} 
+                  className={`group bg-background rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer ${index % 2 === 1 ? 'mt-8' : ''}`}
+                >
+                  <div className="w-14 h-14 bg-accent rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:scale-110 transition-all duration-500">
+                    <stat.icon className="w-7 h-7 text-accent-foreground group-hover:text-primary-foreground transition-colors" />
+                  </div>
+                  <div className="font-serif text-4xl md:text-5xl font-bold text-primary mb-2">
                     {stat.value}
                   </div>
-                  <div className="text-muted-foreground text-sm">
+                  <div className="text-muted-foreground font-medium">
                     {stat.label}
                   </div>
                 </div>
               ))}
             </div>
-          </div>
 
-          {/* Image Grid */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-4">
-              <div className="bg-primary/10 rounded-lg aspect-[4/5] flex items-center justify-center">
-                <div className="text-center p-6">
-                  <div className="font-serif text-5xl font-bold text-primary mb-2">15</div>
-                  <div className="text-muted-foreground">Years of Excellence</div>
-                </div>
-              </div>
-              <div className="bg-secondary rounded-lg aspect-square flex items-center justify-center">
-                <div className="text-center p-6">
-                  <Sparkles className="w-12 h-12 text-secondary-foreground mx-auto mb-2" />
-                  <div className="text-secondary-foreground font-medium">Award Winning</div>
-                </div>
-              </div>
-            </div>
-            <div className="space-y-4 pt-8">
-              <div className="bg-accent rounded-lg aspect-square flex items-center justify-center">
-                <div className="text-center p-6">
-                  <Users className="w-12 h-12 text-accent-foreground mx-auto mb-2" />
-                  <div className="text-foreground font-medium">Expert Team</div>
-                </div>
-              </div>
-              <div className="bg-primary rounded-lg aspect-[4/5] flex items-center justify-center">
-                <div className="text-center p-6">
-                  <div className="font-serif text-5xl font-bold text-primary-foreground mb-2">100%</div>
-                  <div className="text-primary-foreground/80">Client Satisfaction</div>
+            {/* Floating Badge */}
+            <div className="absolute -bottom-6 -right-6 bg-primary text-primary-foreground px-6 py-4 rounded-2xl shadow-xl animate-[float_3s_ease-in-out_infinite]">
+              <div className="flex items-center gap-3">
+                <Sparkles className="w-6 h-6" />
+                <div>
+                  <div className="font-bold text-lg">Award</div>
+                  <div className="text-primary-foreground/80 text-sm">Winning Studio</div>
                 </div>
               </div>
             </div>

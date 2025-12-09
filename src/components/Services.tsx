@@ -1,5 +1,4 @@
-import { Home, Building2, Palette, Lightbulb, Sofa, PenTool } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Home, Building2, Palette, Lightbulb, Sofa, PenTool, ArrowRight } from "lucide-react";
 
 const services = [
   {
@@ -42,39 +41,57 @@ const services = [
 
 const Services = () => {
   return (
-    <section id="services" className="py-24 bg-card">
-      <div className="container mx-auto px-4">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-primary font-medium tracking-wider uppercase text-sm">
+    <section id="services" className="py-32 bg-card relative overflow-hidden">
+      {/* Background Decorations */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      <div className="absolute -top-40 -left-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="text-center max-w-3xl mx-auto mb-20">
+          <span className="inline-block text-primary font-medium tracking-[0.2em] uppercase text-sm mb-4 border-b-2 border-primary pb-2">
             What We Offer
           </span>
-          <h2 className="font-serif text-3xl md:text-4xl font-bold text-card-foreground mt-2 mb-4">
-            Our Design Services
+          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-card-foreground mt-4 mb-6">
+            Our Design <span className="text-primary">Services</span>
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
             From concept to completion, we offer comprehensive interior design
             services tailored to bring your vision to life.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <Card
+            <div
               key={index}
-              className="group bg-background border-border hover:border-primary transition-all duration-300 hover:shadow-lg"
+              className="group relative bg-background border border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2 cursor-pointer overflow-hidden"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
-              <CardContent className="p-8">
-                <div className="w-14 h-14 bg-accent rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors duration-300">
-                  <service.icon className="w-7 h-7 text-accent-foreground group-hover:text-primary-foreground transition-colors duration-300" />
+              {/* Hover Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              {/* Number */}
+              <span className="absolute top-6 right-6 text-6xl font-serif font-bold text-muted/20 group-hover:text-primary/10 transition-colors duration-500">
+                0{index + 1}
+              </span>
+              
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-accent rounded-xl flex items-center justify-center mb-8 group-hover:bg-primary group-hover:scale-110 transition-all duration-500 shadow-lg">
+                  <service.icon className="w-8 h-8 text-accent-foreground group-hover:text-primary-foreground transition-colors duration-500" />
                 </div>
-                <h3 className="font-serif text-xl font-semibold text-foreground mb-3">
+                <h3 className="font-serif text-2xl font-semibold text-foreground mb-4 group-hover:text-primary transition-colors duration-300">
                   {service.title}
                 </h3>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed mb-6">
                   {service.description}
                 </p>
-              </CardContent>
-            </Card>
+                <div className="flex items-center text-primary font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                  Learn More 
+                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       </div>
