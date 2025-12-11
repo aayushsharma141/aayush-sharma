@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import FloatingParticles from "./FloatingParticles";
 
 const contactInfo = [
   {
@@ -39,7 +40,9 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 bg-background">
+    <section id="contact" className="py-24 bg-background relative overflow-hidden">
+      {/* Interactive Floating Particles */}
+      <FloatingParticles count={12} />
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-primary font-medium tracking-wider uppercase text-sm">

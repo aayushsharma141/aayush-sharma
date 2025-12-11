@@ -1,4 +1,5 @@
 import { Home, Building2, Palette, Lightbulb, Sofa, PenTool, ArrowRight } from "lucide-react";
+import FloatingParticles from "./FloatingParticles";
 
 const services = [
   {
@@ -42,6 +43,9 @@ const services = [
 const Services = () => {
   return (
     <section id="services" className="py-32 bg-card relative overflow-hidden">
+      {/* Interactive Floating Particles */}
+      <FloatingParticles count={20} />
+      
       {/* Background Decorations */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       <div className="absolute -top-40 -left-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />

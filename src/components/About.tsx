@@ -1,4 +1,5 @@
 import { Award, Users, Clock, Sparkles, ArrowRight, CheckCircle } from "lucide-react";
+import FloatingParticles from "./FloatingParticles";
 
 const stats = [
   { icon: Award, value: "15+", label: "Years Experience" },
@@ -17,6 +18,9 @@ const features = [
 const About = () => {
   return (
     <section id="about" className="py-32 bg-card relative overflow-hidden">
+      {/* Interactive Floating Particles */}
+      <FloatingParticles count={18} />
+      
       {/* Decorative Background */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent" />
       <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
