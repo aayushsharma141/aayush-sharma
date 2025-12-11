@@ -6,6 +6,7 @@ import Portfolio from "@/components/Portfolio";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import FixedSocialBar from "@/components/FixedSocialBar";
 
 const Index = () => {
   return (
@@ -21,6 +22,7 @@ const Index = () => {
           content="interior design, residential design, commercial design, luxury interiors, home design, space planning"
         />
       </Helmet>
+      <FixedSocialBar />
       <main className="min-h-screen">
         <Navbar />
         <Hero />
