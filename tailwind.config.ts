@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
 
+// Add dash animation keyframe
+
 export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
@@ -83,12 +85,22 @@ export default {
 			'fade-in': {
 				'0%': { opacity: '0', transform: 'translateY(20px)' },
 				'100%': { opacity: '1', transform: 'translateY(0)' }
+			},
+			'draw': {
+				'0%': { strokeDashoffset: '200' },
+				'100%': { strokeDashoffset: '0' }
+			},
+			'dash': {
+				'0%': { strokeDashoffset: '0' },
+				'100%': { strokeDashoffset: '100' }
 			}
 		},
 		animation: {
 			'accordion-down': 'accordion-down 0.2s ease-out',
 			'accordion-up': 'accordion-up 0.2s ease-out',
-			'fade-in': 'fade-in 0.8s ease-out forwards'
+			'fade-in': 'fade-in 0.8s ease-out forwards',
+			'draw': 'draw 1.5s ease-out forwards',
+			'dash': 'dash 20s linear infinite'
 		},
   		boxShadow: {
   			'2xs': 'var(--shadow-2xs)',
