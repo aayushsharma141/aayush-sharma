@@ -72,8 +72,19 @@ const Hero = () => {
         }}
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          {/* Social Media Buttons - Left Side */}
+          <div className={`lg:col-span-2 flex justify-center lg:justify-start order-last lg:order-first transition-all duration-1000 delay-1000 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"}`}>
+            <div className="hidden lg:block">
+              <HeroSocialButtons variant="vertical" />
+            </div>
+            {/* Mobile: Show horizontal at bottom */}
+            <div className="lg:hidden">
+              <HeroSocialButtons variant="horizontal" />
+            </div>
+          </div>
+
           {/* Main Content */}
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-10">
             <div className={`transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
               <span className="inline-flex items-center gap-2 text-primary font-medium mb-6 tracking-[0.2em] uppercase text-sm border border-primary/30 px-4 py-2 rounded-full backdrop-blur-sm bg-primary/5">
                 <Sparkles className="w-4 h-4" />
@@ -133,17 +144,6 @@ const Hero = () => {
                 <div className="font-semibold text-lg">500+ Happy Clients</div>
                 <div className="text-sm text-primary-foreground/60">Trusted by luxury homeowners worldwide</div>
               </div>
-            </div>
-          </div>
-
-          {/* Social Media Buttons - Right Side */}
-          <div className={`lg:col-span-4 flex justify-center lg:justify-start transition-all duration-1000 delay-1000 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}>
-            <div className="hidden lg:block">
-              <HeroSocialButtons variant="vertical" />
-            </div>
-            {/* Mobile: Show horizontal at bottom */}
-            <div className="lg:hidden">
-              <HeroSocialButtons variant="horizontal" />
             </div>
           </div>
         </div>
