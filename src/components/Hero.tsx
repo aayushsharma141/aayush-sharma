@@ -137,7 +137,7 @@ const Hero = () => {
           </div>
 
           {/* Social Media Buttons - Right Side */}
-          <div className={`lg:col-span-4 flex justify-center lg:justify-end transition-all duration-1000 delay-1000 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}>
+          <div className={`lg:col-span-4 flex justify-center lg:justify-start transition-all duration-1000 delay-1000 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}>
             <div className="hidden lg:block">
               <HeroSocialButtons variant="vertical" />
             </div>
