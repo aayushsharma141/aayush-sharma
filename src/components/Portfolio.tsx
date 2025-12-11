@@ -2,6 +2,7 @@ import { ArrowUpRight, Eye } from "lucide-react";
 import portfolioBedroom from "@/assets/portfolio-bedroom.jpg";
 import portfolioKitchen from "@/assets/portfolio-kitchen.jpg";
 import portfolioOffice from "@/assets/portfolio-office.jpg";
+import FloatingParticles from "./FloatingParticles";
 
 const projects = [
   {
@@ -30,6 +31,9 @@ const projects = [
 const Portfolio = () => {
   return (
     <section id="portfolio" className="py-32 bg-background relative overflow-hidden">
+      {/* Interactive Floating Particles */}
+      <FloatingParticles count={15} />
+      
       {/* Decorative Elements */}
       <div className="absolute top-20 left-20 w-32 h-32 border border-primary/10 rounded-full" />
       <div className="absolute bottom-20 right-20 w-48 h-48 border border-primary/10 rounded-full" />
