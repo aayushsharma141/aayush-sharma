@@ -1,84 +1,71 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 
 interface Particle {
   id: number;
   x: number;
   y: number;
   size: number;
-  duration: number;
-  delay: number;
+  speed: number;
   type: "circle" | "diamond" | "ring";
 }
 
-export const FloatingParticles: React.FC<{ count?: number; className?: string }> = React.memo(({ count = 15, className = "" }) => {
-  const [mounted, setMounted] = useState(false);
+export const FloatingParticles: React.FC<{ count?: number; className?: string }> = React.memo(({ count = 25, className = "" }) => {
+  const [scrollY, setScrollY] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const particles = useMemo<Particle[]>(() => {
     return Array.from({ length: count }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.round(Math.random() * 20 + 8),
-      duration: Number((Math.random() * 10 + 12).toFixed(2)),
-      delay: Number((Math.random() * 4).toFixed(2)),
+      size: Math.round(Math.random() * 24 + 6),
+      speed: Number((Math.random() * 0.5 + 0.1).toFixed(3)),
       type: ["circle", "diamond", "ring"][Math.floor(Math.random() * 3)] as Particle["type"],
     }));
   }, [count]);
 
   useEffect(() => {
-    setMounted(true);
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const prefersReducedMotion = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (!mounted) return null;
-
   return (
-    <div className={`absolute inset-0 overflow-hidden pointer-events-none z-0 ${className}`} aria-hidden>
-      {!prefersReducedMotion &&
-        particles.map((p) => (
+    <div 
+      ref={containerRef}
+      className={`fixed inset-0 overflow-hidden pointer-events-none z-0 ${className}`} 
+      aria-hidden
+    >
+      {particles.map((p) => {
+        const parallaxOffset = scrollY * p.speed;
+        const yPos = ((p.y * 10 + parallaxOffset) % 1200) - 100;
+        
+        return (
           <div
             key={p.id}
-            className={`absolute transform-gpu will-change-transform opacity-20 ${
-              p.type === "circle" ? "rounded-full bg-primary/30" : p.type === "diamond" ? "bg-primary/20 rotate-45" : "rounded-full border-2 border-primary/30"
+            className={`absolute transform-gpu will-change-transform ${
+              p.type === "circle" 
+                ? "rounded-full bg-primary/20" 
+                : p.type === "diamond" 
+                  ? "bg-primary/15 rotate-45" 
+                  : "rounded-full border-2 border-primary/20"
             }`}
             style={{
               left: `${p.x}%`,
-              top: `${p.y}%`,
+              top: `${yPos}px`,
               width: `${p.size}px`,
               height: `${p.size}px`,
-              animation: `float-${p.id % 6} ${p.duration}s ease-in-out ${p.delay}s infinite`,
+              opacity: 0.15 + (p.speed * 0.2),
+              transition: "top 0.1s linear",
             }}
           />
-        ))}
-
-      {prefersReducedMotion && (
-        <div className="absolute inset-0 pointer-events-none">
-          {particles.slice(0, Math.max(3, Math.round(count / 4))).map((p) => (
-            <div
-              key={p.id}
-              className={`absolute ${p.type === "circle" ? "rounded-full bg-primary/30" : p.type === "diamond" ? "bg-primary/20 rotate-45" : "rounded-full border-2 border-primary/30"}`}
-              style={{ left: `${p.x}%`, top: `${p.y}%`, width: `${p.size}px`, height: `${p.size}px`, opacity: 0.12 }}
-            />
-          ))}
-        </div>
-      )}
-
-      <style>{`
-        ${Array.from({ length: 6 })
-          .map(
-            (_, i) => `@keyframes float-${i} { 0% { transform: translateY(0) translateX(0); } 50% { transform: translateY(${
-              (i % 2 === 0 ? 1 : -1) * (10 + i * 2)
-            }px) translateX(${(i % 3) * 4 - 6}px); } 100% { transform: translateY(0) translateX(0); } }`
-          )
-          .join("\n")}
-
-        @media (prefers-reduced-motion: reduce) {
-          ${Array.from({ length: 6 })
-            .map((_, i) => `@keyframes float-${i} { from { transform: none; } to { transform: none; } }`)
-            .join("\n")}
-        }
-      `}</style>
+        );
+      })}
     </div>
   );
 });

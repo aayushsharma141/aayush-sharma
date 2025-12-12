@@ -7,6 +7,7 @@ import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import FixedSocialBar from "@/components/FixedSocialBar";
+import FloatingParticles from "@/components/FloatingParticles";
 
 const Index = () => {
   return (
@@ -22,7 +23,8 @@ const Index = () => {
           content="interior design, residential design, commercial design, luxury interiors, home design, space planning"
         />
       </Helmet>
-      <main className="min-h-screen">
+      <FloatingParticles count={30} />
+      <main className="min-h-screen relative z-10">
         <FixedSocialBar />
         <Navbar />
         <Hero />
