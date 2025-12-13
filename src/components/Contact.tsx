@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import FloatingParticles from "./FloatingParticles";
+import Spline from "@splinetool/react-spline";
 
 const contactInfo = [
   {
@@ -30,6 +32,7 @@ const contactInfo = [
 
 const Contact = () => {
   const { toast } = useToast();
+  const [splineLoaded, setSplineLoaded] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -129,13 +132,24 @@ const Contact = () => {
               ))}
             </div>
 
-            {/* Map Placeholder */}
-            <div className="bg-card rounded-xl overflow-hidden h-64 flex items-center justify-center border border-border">
-              <div className="text-center">
-                <MapPin className="w-12 h-12 text-primary mx-auto mb-4" />
-                <p className="text-muted-foreground">
-                  Interactive map coming soon
-                </p>
+            {/* Spline 3D Consultation Element */}
+            <div className="relative bg-card rounded-xl overflow-hidden h-80 border border-border">
+              {!splineLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center bg-card">
+                  <div className="text-center">
+                    <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                    <p className="text-muted-foreground text-sm">Loading 3D Experience...</p>
+                  </div>
+                </div>
+              )}
+              <Spline
+                scene="https://prod.spline.design/Un3OZTryOO4IJIQ7/scene.splinecode"
+                onLoad={() => setSplineLoaded(true)}
+              />
+              <div className="absolute bottom-4 left-4 right-4">
+                <Button size="lg" className="w-full">
+                  Book Free Consultation
+                </Button>
               </div>
             </div>
           </div>
