@@ -1,10 +1,11 @@
+import { useState } from "react";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import FloatingParticles from "./FloatingParticles";
-import SplineConsultation from "./SplineConsultation";
+import Spline from "@splinetool/react-spline";
 
 const contactInfo = [
   {
@@ -31,19 +32,13 @@ const contactInfo = [
 
 const Contact = () => {
   const { toast } = useToast();
+  const [splineLoaded, setSplineLoaded] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
       title: "Message sent!",
       description: "We'll get back to you within 24 hours.",
-    });
-  };
-
-  const handleBookConsultation = () => {
-    toast({
-      title: "Consultation Request",
-      description: "We'll contact you shortly to schedule your free consultation.",
     });
   };
 
@@ -138,7 +133,25 @@ const Contact = () => {
             </div>
 
             {/* Spline 3D Consultation Element */}
-            <SplineConsultation onBookConsultation={handleBookConsultation} />
+            <div className="relative bg-card rounded-xl overflow-hidden h-80 border border-border">
+              {!splineLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center bg-card">
+                  <div className="text-center">
+                    <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                    <p className="text-muted-foreground text-sm">Loading 3D Experience...</p>
+                  </div>
+                </div>
+              )}
+              <Spline
+                scene="https://prod.spline.design/Un3OZTryOO4IJIQ7/scene.splinecode"
+                onLoad={() => setSplineLoaded(true)}
+              />
+              <div className="absolute bottom-4 left-4 right-4">
+                <Button size="lg" className="w-full">
+                  Book Free Consultation
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
