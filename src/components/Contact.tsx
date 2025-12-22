@@ -1,10 +1,9 @@
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import FloatingParticles from "./FloatingParticles";
-import SplineConsultation from "./SplineConsultation";
 
 const contactInfo = [
   {
@@ -130,8 +129,26 @@ const Contact = () => {
               ))}
             </div>
 
-            {/* Spline 3D Consultation Element */}
-            <SplineConsultation />
+            {/* Consultation CTA */}
+            <div className="relative bg-gradient-to-br from-primary/10 via-accent/5 to-primary/10 rounded-xl overflow-hidden border border-border p-8">
+              <div className="absolute top-4 right-4">
+                <Sparkles className="w-8 h-8 text-primary/40" />
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-3xl">🏠</span>
+                </div>
+                <h4 className="font-serif text-xl font-semibold text-foreground mb-2">
+                  Ready to Transform Your Space?
+                </h4>
+                <p className="text-muted-foreground text-sm mb-6 max-w-sm mx-auto">
+                  Schedule a free consultation with our design experts and bring your vision to life
+                </p>
+                <Button size="lg" className="w-full sm:w-auto px-8">
+                  Book Free Consultation
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
