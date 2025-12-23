@@ -1,32 +1,30 @@
-import { Instagram, Facebook, Linkedin, Twitter } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Instagram, Facebook, Linkedin, Twitter, Phone, Mail, MapPin } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  const footerLinks = {
-    services: [
-      { name: "Residential Design", href: "#services" },
-      { name: "Commercial Spaces", href: "#services" },
-      { name: "Color Consultation", href: "#services" },
-      { name: "Space Planning", href: "#services" },
-    ],
-    company: [
-      { name: "About Us", href: "#about" },
-      { name: "Our Team", href: "#about" },
-      { name: "Careers", href: "#" },
-      { name: "Press", href: "#" },
-    ],
-    resources: [
-      { name: "Blog", href: "#" },
-      { name: "FAQ", href: "#" },
-      { name: "Design Tips", href: "#" },
-      { name: "Style Guide", href: "#" },
-    ],
-  };
+  const quickLinks = [
+    { name: "Home", href: "/" },
+    { name: "About Us", href: "/about-us" },
+    { name: "Services", href: "/services" },
+    { name: "Our Works", href: "/gallery" },
+    { name: "Blog", href: "/blog" },
+    { name: "Contact Us", href: "/contact-us" },
+  ];
+
+  const services = [
+    { name: "Planning", href: "/services" },
+    { name: "Interior Design", href: "/services" },
+    { name: "Exterior Design", href: "/services" },
+    { name: "Consultation", href: "/services" },
+    { name: "Turnkey Project", href: "/services" },
+    { name: "Miniature Model", href: "/services" },
+  ];
 
   const socialLinks = [
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Facebook, href: "#", label: "Facebook" },
+    { icon: Instagram, href: "https://www.instagram.com/crossangleinterior/", label: "Instagram" },
+    { icon: Facebook, href: "https://www.facebook.com/crossangleinterior", label: "Facebook" },
     { icon: Linkedin, href: "#", label: "LinkedIn" },
     { icon: Twitter, href: "#", label: "Twitter" },
   ];
@@ -34,21 +32,80 @@ const Footer = () => {
   return (
     <footer className="bg-secondary text-secondary-foreground">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
-          {/* Brand */}
-          <div className="lg:col-span-2">
-            <a href="#home" className="font-serif text-2xl font-bold text-primary">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          {/* Brand & Contact */}
+          <div className="lg:col-span-1">
+            <Link to="/" className="font-serif text-2xl font-bold text-primary">
               Crossangle <span className="text-secondary-foreground">Interior</span>
-            </a>
-            <p className="text-secondary-foreground/80 mt-4 mb-6 max-w-sm">
-              Creating exceptional interior spaces that inspire and transform
-              the way you live and work.
+            </Link>
+            <p className="text-secondary-foreground/80 mt-4 mb-6">
+              Transforming your vision into exquisite living spaces with innovative and personalized interior design solutions.
             </p>
-            <div className="flex gap-4">
+            
+            <div className="space-y-3 text-sm">
+              <a href="tel:+917909041132" className="flex items-center gap-2 text-secondary-foreground/80 hover:text-primary transition-colors">
+                <Phone className="w-4 h-4" />
+                <span>+91 7909041132</span>
+              </a>
+              <a href="tel:+919304853659" className="flex items-center gap-2 text-secondary-foreground/80 hover:text-primary transition-colors">
+                <Phone className="w-4 h-4" />
+                <span>+91 9304853659</span>
+              </a>
+              <a href="mailto:info@crossangleinterior.com" className="flex items-center gap-2 text-secondary-foreground/80 hover:text-primary transition-colors">
+                <Mail className="w-4 h-4" />
+                <span>info@crossangleinterior.com</span>
+              </a>
+              <div className="flex items-start gap-2 text-secondary-foreground/80">
+                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <span>2-G, 2nd floor, Aditya Signature building, Dimna Rd, Mango, Jamshedpur, Jharkhand 831012</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="font-semibold mb-4">Quick Links</h4>
+            <ul className="space-y-3">
+              {quickLinks.map((link, index) => (
+                <li key={index}>
+                  <Link
+                    to={link.href}
+                    className="text-secondary-foreground/80 hover:text-primary transition-colors duration-300"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Services */}
+          <div>
+            <h4 className="font-semibold mb-4">Our Services</h4>
+            <ul className="space-y-3">
+              {services.map((link, index) => (
+                <li key={index}>
+                  <Link
+                    to={link.href}
+                    className="text-secondary-foreground/80 hover:text-primary transition-colors duration-300"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Social & Newsletter */}
+          <div>
+            <h4 className="font-semibold mb-4">Follow Us</h4>
+            <div className="flex gap-3 mb-6">
               {socialLinks.map((social, index) => (
                 <a
                   key={index}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={social.label}
                   className="w-10 h-10 bg-secondary-foreground/10 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
                 >
@@ -56,57 +113,17 @@ const Footer = () => {
                 </a>
               ))}
             </div>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h4 className="font-semibold mb-4">Services</h4>
-            <ul className="space-y-3">
-              {footerLinks.services.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-secondary-foreground/80 hover:text-primary transition-colors duration-300"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h4 className="font-semibold mb-4">Company</h4>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-secondary-foreground/80 hover:text-primary transition-colors duration-300"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Resources */}
-          <div>
-            <h4 className="font-semibold mb-4">Resources</h4>
-            <ul className="space-y-3">
-              {footerLinks.resources.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-secondary-foreground/80 hover:text-primary transition-colors duration-300"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <div className="bg-secondary-foreground/5 p-4 rounded-lg">
+              <p className="text-sm text-secondary-foreground/80 mb-2">
+                Ready to transform your space?
+              </p>
+              <Link 
+                to="/contact-us"
+                className="text-primary font-medium text-sm hover:underline"
+              >
+                Get A Free Quote →
+              </Link>
+            </div>
           </div>
         </div>
 
