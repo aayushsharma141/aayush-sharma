@@ -61,11 +61,8 @@ const Hero = () => {
           
           <h1 className={`font-serif text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-primary-foreground leading-[1.05] mb-8 transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
             Elevate Your Space
-            <span className="block text-primary mt-2 relative">
+            <span className="block mt-2 bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent drop-shadow-[0_0_25px_hsl(var(--primary)/0.5)]">
               Into Luxury
-              <svg className="absolute -bottom-2 left-0 w-64 h-3 text-primary/40" viewBox="0 0 200 12" fill="none">
-                <path d="M0 6C50 6 50 2 100 2C150 2 150 10 200 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeDasharray="200" strokeDashoffset="200" className="animate-[draw_1.5s_ease-out_forwards_0.8s]" />
-              </svg>
             </span>
           </h1>
           
