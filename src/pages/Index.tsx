@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import StatsMarquee from "@/components/StatsMarquee";
 import Services from "@/components/Services";
 import Portfolio from "@/components/Portfolio";
 import About from "@/components/About";
@@ -29,7 +28,6 @@ const Index = () => {
         <FixedSocialBar />
         <Navbar />
         <Hero />
-        <StatsMarquee />
         <Services />
         <Portfolio />
         <About />
