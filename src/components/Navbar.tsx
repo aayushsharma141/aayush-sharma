@@ -48,7 +48,7 @@ const Navbar = () => {
               <img 
                 src={logoIcon} 
                 alt="Cross Angle Interior"
-                className="h-10 md:h-12 w-auto drop-shadow-md"
+                className="h-12 md:h-14 w-auto"
                 style={{ imageRendering: 'crisp-edges' }}
               />
             </div>
