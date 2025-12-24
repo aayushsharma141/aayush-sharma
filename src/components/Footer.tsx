@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Instagram, Facebook, Linkedin, Twitter, Phone, Mail, MapPin } from "lucide-react";
-import logoIcon from "@/assets/logo-icon.jpeg";
+import logoIcon from "@/assets/logo-icon.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -40,7 +40,8 @@ const Footer = () => {
               <img 
                 src={logoIcon} 
                 alt="Cross Angle Interior"
-                className="h-12 w-auto rounded-full animate-logo-pulse-glow"
+                className="h-12 w-auto drop-shadow-md"
+                style={{ imageRendering: 'crisp-edges' }}
               />
               <span className="font-serif text-2xl font-bold">
                 <span className="text-primary">Crossangle</span>{" "}
