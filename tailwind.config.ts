@@ -111,6 +111,10 @@ export default {
 			'logo-breathe': {
 				'0%, 100%': { opacity: '1', transform: 'scale(1)' },
 				'50%': { opacity: '0.9', transform: 'scale(1.03)' }
+			},
+			'text-shimmer': {
+				'0%': { backgroundPosition: '-200% center' },
+				'100%': { backgroundPosition: '200% center' }
 			}
 		},
 		animation: {
@@ -121,7 +125,8 @@ export default {
 			'dash': 'dash 20s linear infinite',
 			'logo-spin': 'logo-spin 12s linear infinite',
 			'logo-pulse-glow': 'logo-pulse-glow 2.5s ease-in-out infinite',
-			'logo-breathe': 'logo-breathe 3s ease-in-out infinite'
+			'logo-breathe': 'logo-breathe 3s ease-in-out infinite',
+			'text-shimmer': 'text-shimmer 4s ease-in-out infinite'
 		},
   		boxShadow: {
   			'2xs': 'var(--shadow-2xs)',

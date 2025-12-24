@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logoIcon from "@/assets/logo-icon.jpeg";
+import logoIcon from "@/assets/logo-icon.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,12 +48,13 @@ const Navbar = () => {
               <img 
                 src={logoIcon} 
                 alt="Cross Angle Interior"
-                className="h-10 md:h-12 w-auto"
+                className="h-10 md:h-12 w-auto drop-shadow-md"
+                style={{ imageRendering: 'crisp-edges' }}
               />
             </div>
-            {/* Animated Brand Text */}
-            <div className="font-serif text-xl md:text-2xl font-bold animate-logo-pulse-glow transition-all duration-500 group-hover:animate-logo-spin">
-              <span className="text-primary">
+            {/* Animated Brand Text with Shimmer */}
+            <div className="font-serif text-xl md:text-2xl font-bold transition-all duration-500 group-hover:tracking-wider group-hover:scale-105">
+              <span className="bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] bg-clip-text text-transparent animate-text-shimmer">
                 Crossangle
               </span>
               {" "}
