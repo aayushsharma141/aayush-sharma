@@ -40,7 +40,7 @@ const Footer = () => {
               <img 
                 src={logoIcon} 
                 alt="Cross Angle Interior"
-                className="h-12 w-auto drop-shadow-md"
+                className="h-[68px] w-auto"
                 style={{ imageRendering: 'crisp-edges' }}
               />
               <span className="font-serif text-2xl font-bold">
