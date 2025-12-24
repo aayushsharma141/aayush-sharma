@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Instagram, Facebook, Linkedin, Twitter, Phone, Mail, MapPin } from "lucide-react";
+import logoIcon from "@/assets/logo-icon.jpeg";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -35,8 +36,16 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand & Contact */}
           <div className="lg:col-span-1">
-            <Link to="/" className="font-serif text-2xl font-bold text-primary">
-              Crossangle <span className="text-secondary-foreground">Interior</span>
+            <Link to="/" className="flex items-center gap-3">
+              <img 
+                src={logoIcon} 
+                alt="Cross Angle Interior"
+                className="h-12 w-auto rounded-full animate-logo-pulse-glow"
+              />
+              <span className="font-serif text-2xl font-bold">
+                <span className="text-primary">Crossangle</span>{" "}
+                <span className="text-secondary-foreground">Interior</span>
+              </span>
             </Link>
             <p className="text-secondary-foreground/80 mt-4 mb-6">
               Transforming your vision into exquisite living spaces with innovative and personalized interior design solutions.

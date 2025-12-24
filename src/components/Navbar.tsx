@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoIcon from "@/assets/logo-icon.jpeg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,15 +41,26 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <Link 
             to="/" 
-            className="font-serif text-2xl md:text-3xl font-bold group"
+            className="flex items-center gap-3 group"
           >
-            <span className="text-primary">
-              Crossangle
-            </span>
-            {" "}
-            <span className={`transition-colors duration-300 ${showTransparent ? 'text-primary-foreground' : 'text-foreground'}`}>
-              Interior
-            </span>
+            {/* Animated Logo Icon */}
+            <div className="relative">
+              <img 
+                src={logoIcon} 
+                alt="Cross Angle Interior"
+                className="h-10 md:h-12 w-auto rounded-full animate-logo-pulse-glow transition-all duration-500 group-hover:animate-logo-spin"
+              />
+            </div>
+            {/* Brand Text */}
+            <div className="font-serif text-xl md:text-2xl font-bold">
+              <span className="text-primary">
+                Crossangle
+              </span>
+              {" "}
+              <span className={`transition-colors duration-300 ${showTransparent ? 'text-primary-foreground' : 'text-foreground'}`}>
+                Interior
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
