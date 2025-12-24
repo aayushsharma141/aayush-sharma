@@ -13,10 +13,10 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Luxe Interiors | Award-Winning Interior Design Studio</title>
+        <title>Crossangle Interior | Premium Interior Design Studio</title>
         <meta
           name="description"
-          content="Transform your space with Luxe Interiors - an award-winning interior design studio specializing in residential and commercial spaces. Book your free consultation today."
+          content=Transform your vision into exquisite living spaces with Crossangle Interior. Innovative and personalized interior design solutions for homes and commercial spaces.
         />
         <meta
           name="keywords"
