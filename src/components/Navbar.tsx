@@ -43,16 +43,16 @@ const Navbar = () => {
             to="/" 
             className="flex items-center gap-3 group"
           >
-            {/* Animated Logo Icon */}
+            {/* Logo Icon - Static with transparent background */}
             <div className="relative">
               <img 
                 src={logoIcon} 
                 alt="Cross Angle Interior"
-                className="h-10 md:h-12 w-auto rounded-full animate-logo-pulse-glow transition-all duration-500 group-hover:animate-logo-spin"
+                className="h-10 md:h-12 w-auto"
               />
             </div>
-            {/* Brand Text */}
-            <div className="font-serif text-xl md:text-2xl font-bold">
+            {/* Animated Brand Text */}
+            <div className="font-serif text-xl md:text-2xl font-bold animate-logo-pulse-glow transition-all duration-500 group-hover:animate-logo-spin">
               <span className="text-primary">
                 Crossangle
               </span>
