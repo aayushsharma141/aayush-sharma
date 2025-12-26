@@ -40,18 +40,22 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 bg-background relative overflow-hidden">
+    <section id="contact" className="py-24 relative overflow-hidden">
+      {/* Dark overlay matching hero */}
+      <div className="absolute inset-0 bg-gradient-to-t from-foreground/95 via-foreground/90 to-foreground/95 z-0" />
+      
       {/* Interactive Floating Particles */}
       <FloatingParticles count={12} />
-      <div className="container mx-auto px-4">
+      
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-primary font-medium tracking-wider uppercase text-sm">
+          <span className="inline-block text-primary font-medium tracking-[0.2em] uppercase text-sm mb-4 border-b-2 border-primary pb-2">
             Get In Touch
           </span>
-          <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mt-2 mb-4">
+          <h2 className="font-serif text-3xl md:text-4xl font-bold text-primary-foreground mt-2 mb-4">
             Start Your Design Journey
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-primary-foreground/70 text-lg">
             Ready to transform your space? Contact us today for a free
             consultation and let's bring your vision to life.
           </p>
@@ -59,39 +63,60 @@ const Contact = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Contact Form */}
-          <div className="bg-card p-8 rounded-xl shadow-lg">
-            <h3 className="font-serif text-2xl font-semibold text-card-foreground mb-6">
+          <div className="bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 p-8 rounded-xl shadow-lg">
+            <h3 className="font-serif text-2xl font-semibold text-primary-foreground mb-6">
               Send Us a Message
             </h3>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-foreground mb-2">
+                  <label htmlFor="firstName" className="block text-sm font-medium text-primary-foreground mb-2">
                     First Name
                   </label>
-                  <Input id="firstName" placeholder="John" required />
+                  <Input 
+                    id="firstName" 
+                    placeholder="John" 
+                    required 
+                    className="bg-primary-foreground/5 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/40"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-foreground mb-2">
+                  <label htmlFor="lastName" className="block text-sm font-medium text-primary-foreground mb-2">
                     Last Name
                   </label>
-                  <Input id="lastName" placeholder="Doe" required />
+                  <Input 
+                    id="lastName" 
+                    placeholder="Doe" 
+                    required 
+                    className="bg-primary-foreground/5 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/40"
+                  />
                 </div>
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                <label htmlFor="email" className="block text-sm font-medium text-primary-foreground mb-2">
                   Email Address
                 </label>
-                <Input id="email" type="email" placeholder="john@example.com" required />
+                <Input 
+                  id="email" 
+                  type="email" 
+                  placeholder="john@example.com" 
+                  required 
+                  className="bg-primary-foreground/5 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/40"
+                />
               </div>
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
+                <label htmlFor="phone" className="block text-sm font-medium text-primary-foreground mb-2">
                   Phone Number
                 </label>
-                <Input id="phone" type="tel" placeholder="+1 (555) 000-0000" />
+                <Input 
+                  id="phone" 
+                  type="tel" 
+                  placeholder="+1 (555) 000-0000" 
+                  className="bg-primary-foreground/5 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/40"
+                />
               </div>
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+                <label htmlFor="message" className="block text-sm font-medium text-primary-foreground mb-2">
                   Tell Us About Your Project
                 </label>
                 <Textarea
@@ -99,6 +124,7 @@ const Contact = () => {
                   placeholder="Describe your project, timeline, and any specific requirements..."
                   rows={5}
                   required
+                  className="bg-primary-foreground/5 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/40"
                 />
               </div>
               <Button type="submit" size="lg" className="w-full">
@@ -111,16 +137,19 @@ const Contact = () => {
           <div className="space-y-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {contactInfo.map((info, index) => (
-                <div key={index} className="flex gap-4">
-                  <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center flex-shrink-0">
-                    <info.icon className="w-6 h-6 text-accent-foreground" />
+                <div 
+                  key={index} 
+                  className="flex gap-4 group p-4 rounded-xl hover:bg-primary-foreground/5 transition-all duration-300 cursor-pointer"
+                >
+                  <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
+                    <info.icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground mb-1">
+                    <h4 className="font-semibold text-primary-foreground mb-1 group-hover:text-primary transition-colors">
                       {info.title}
                     </h4>
                     {info.details.map((detail, i) => (
-                      <p key={i} className="text-muted-foreground text-sm">
+                      <p key={i} className="text-primary-foreground/60 text-sm">
                         {detail}
                       </p>
                     ))}
@@ -130,18 +159,18 @@ const Contact = () => {
             </div>
 
             {/* Consultation CTA */}
-            <div className="relative bg-gradient-to-br from-primary/10 via-accent/5 to-primary/10 rounded-xl overflow-hidden border border-border p-8">
+            <div className="relative bg-gradient-to-br from-primary/20 via-primary/10 to-primary/20 rounded-xl overflow-hidden border border-primary/20 p-8">
               <div className="absolute top-4 right-4">
                 <Sparkles className="w-8 h-8 text-primary/40" />
               </div>
               <div className="text-center">
-                <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-primary/30 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-3xl">🏠</span>
                 </div>
-                <h4 className="font-serif text-xl font-semibold text-foreground mb-2">
+                <h4 className="font-serif text-xl font-semibold text-primary-foreground mb-2">
                   Ready to Transform Your Space?
                 </h4>
-                <p className="text-muted-foreground text-sm mb-6 max-w-sm mx-auto">
+                <p className="text-primary-foreground/60 text-sm mb-6 max-w-sm mx-auto">
                   Schedule a free consultation with our design experts and bring your vision to life
                 </p>
                 <Button size="lg" className="w-full sm:w-auto px-8">
