@@ -1,4 +1,4 @@
-import { ArrowRight, Play, Sparkles } from "lucide-react";
+import { ArrowRight, Play, Sparkles, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-interior.jpg";
 import WaterRippleEffect from "./WaterRippleEffect";
@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 const Hero = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -16,19 +17,36 @@ const Hero = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      setMousePosition({ x, y });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   const parallaxBg = scrollY * 0.5;
   const parallaxContent = scrollY * 0.2;
   const opacity = Math.max(0, 1 - scrollY / 600);
+
+  const handleScrollToServices = () => {
+    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
       {/* Water Ripple Mouse Effect */}
       <WaterRippleEffect />
 
-      {/* Background Image with Parallax Effect */}
+      {/* Background Image with Parallax Effect + Mouse Tracking */}
       <div 
-        className="absolute inset-0 z-0"
-        style={{ transform: `translateY(${parallaxBg}px)` }}
+        className="absolute inset-0 z-0 transition-transform duration-300 ease-out"
+        style={{ 
+          transform: `translateY(${parallaxBg}px) translate(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px)` 
+        }}
       >
         <img
           src={heroImage}
@@ -42,11 +60,11 @@ const Hero = () => {
       {/* Floating Particles behind hero */}
       <FloatingParticles count={12} className="z-[1]" />
 
-      {/* Content with Parallax */}
+      {/* Content with Parallax + Mouse Tracking */}
       <div 
-        className="container mx-auto px-4 relative z-10 pt-20"
+        className="container mx-auto px-4 relative z-10 pt-20 transition-transform duration-300 ease-out"
         style={{ 
-          transform: `translateY(${-parallaxContent}px)`,
+          transform: `translateY(${-parallaxContent}px) translate(${-mousePosition.x * 0.2}px, ${-mousePosition.y * 0.2}px)`,
           opacity,
         }}
       >
@@ -111,18 +129,20 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div 
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+      {/* Interactive Scroll Indicator */}
+      <button 
+        onClick={handleScrollToServices}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 group cursor-pointer"
         style={{ opacity }}
       >
         <div className={`flex flex-col items-center gap-2 text-primary-foreground/50 transition-all duration-1000 delay-1200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <span className="text-xs tracking-widest uppercase font-medium">Discover More</span>
-          <div className="w-7 h-12 border-2 border-primary-foreground/30 rounded-full flex justify-center pt-2 backdrop-blur-sm">
+          <span className="text-xs tracking-widest uppercase font-medium group-hover:text-primary transition-colors">Discover More</span>
+          <div className="w-10 h-14 border-2 border-primary-foreground/30 rounded-full flex flex-col items-center justify-start pt-2 backdrop-blur-sm group-hover:border-primary group-hover:bg-primary/10 transition-all duration-300">
             <div className="w-1.5 h-3 bg-primary rounded-full animate-bounce" />
+            <ChevronDown className="w-4 h-4 text-primary mt-1 animate-pulse" />
           </div>
         </div>
-      </div>
+      </button>
 
       {/* Side Navigation Dots */}
       <div className="absolute right-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-4 z-10">
