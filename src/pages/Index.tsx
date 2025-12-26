@@ -4,10 +4,12 @@ import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import Portfolio from "@/components/Portfolio";
 import About from "@/components/About";
+import Testimonials from "@/components/Testimonials";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import FixedSocialBar from "@/components/FixedSocialBar";
 import FloatingParticles from "@/components/FloatingParticles";
+import SectionNavDots from "@/components/SectionNavDots";
 
 const Index = () => {
   return (
@@ -26,11 +28,13 @@ const Index = () => {
       <FloatingParticles count={30} />
       <main className="min-h-screen relative z-10">
         <FixedSocialBar />
+        <SectionNavDots />
         <Navbar />
         <Hero />
         <Services />
         <Portfolio />
         <About />
+        <Testimonials />
         <Contact />
         <Footer />
       </main>
