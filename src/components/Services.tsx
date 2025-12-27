@@ -189,16 +189,6 @@ const Services = () => {
                   </div>
                 )}
 
-                {/* Hover Preview */}
-                {hoveredCard === index && expandedCard !== index && (
-                  <div className="absolute bottom-full left-0 right-0 mb-2 p-3 bg-foreground/95 backdrop-blur-md rounded-lg border border-primary/20 shadow-xl z-20 animate-fade-in">
-                    <p className="text-sm text-primary-foreground/80">{service.preview}</p>
-                    <div className="flex items-center gap-2 mt-2 text-xs text-primary-foreground/50">
-                      <Clock className="w-3 h-3" />
-                      <span>{service.timeline}</span>
-                    </div>
-                  </div>
-                )}
 
                 <div className="flex items-center text-primary font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                   {expandedCard === index ? "Click to collapse" : "Click to expand"}
