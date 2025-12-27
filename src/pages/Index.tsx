@@ -14,6 +14,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import Process from "@/components/Process";
 import TrustSection from "@/components/TrustSection";
 import CTASection from "@/components/CTASection";
+import { BeforeAfterShowcase } from "@/components/BeforeAfterShowcase";
 
 const Index = () => {
   return (
@@ -48,6 +49,7 @@ const Index = () => {
         <Services />
         <Process />
         <Portfolio />
+        <BeforeAfterShowcase />
         <TrustSection />
         <About />
         <Testimonials />
