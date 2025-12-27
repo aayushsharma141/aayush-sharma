@@ -1,26 +1,26 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, ChevronDown, Home, Building2, Sofa, UtensilsCrossed, Lamp, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoIcon from "@/assets/logo-icon.png";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 const servicesMenu = {
   residential: [
-    { name: "Living Room Design", href: "/services#living-room" },
-    { name: "Bedroom Interior", href: "/services#bedroom" },
-    { name: "Kitchen & Dining", href: "/services#kitchen" },
-    { name: "Bathroom Design", href: "/services#bathroom" },
+    { name: "Living Room Design", href: "/services#living-room", description: "Elegant spaces for daily living", icon: Sofa },
+    { name: "Bedroom Interior", href: "/services#bedroom", description: "Peaceful sanctuaries for rest", icon: Home },
+    { name: "Kitchen & Dining", href: "/services#kitchen", description: "Heart of your home", icon: UtensilsCrossed },
   ],
   commercial: [
-    { name: "Office Design", href: "/services#office" },
-    { name: "Retail Spaces", href: "/services#retail" },
-    { name: "Restaurant & Cafe", href: "/services#restaurant" },
+    { name: "Office Design", href: "/services#office", description: "Productive work environments", icon: Building2 },
+    { name: "Retail Spaces", href: "/services#retail", description: "Engaging customer experiences", icon: Building2 },
+    { name: "Restaurant & Cafe", href: "/services#restaurant", description: "Memorable dining atmospheres", icon: UtensilsCrossed },
   ],
   specialized: [
-    { name: "Modular Kitchen", href: "/services#modular-kitchen" },
-    { name: "False Ceiling", href: "/services#false-ceiling" },
-    { name: "Lighting Design", href: "/services#lighting" },
+    { name: "Modular Kitchen", href: "/services#modular-kitchen", description: "Factory-finished, quick install", icon: UtensilsCrossed, badge: "Popular" },
+    { name: "False Ceiling", href: "/services#false-ceiling", description: "Architectural elegance", icon: Lamp },
+    { name: "Lighting Design", href: "/services#lighting", description: "Ambiance that transforms", icon: Lamp },
   ],
 };
 
@@ -40,11 +40,10 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "About Us", href: "/about-us" },
     { name: "Services", href: "/services", hasMegaMenu: true },
-    { name: "Our Works", href: "/gallery" },
+    { name: "Projects", href: "/gallery" },
+    { name: "About", href: "/about-us" },
     { name: "Blog", href: "/blog" },
-    { name: "Contact Us", href: "/contact-us" },
   ];
 
   const isHomePage = location.pathname === "/";
@@ -52,41 +51,49 @@ const Navbar = () => {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
         showTransparent 
-          ? 'bg-transparent py-4' 
-          : 'bg-background/95 backdrop-blur-lg shadow-lg py-2'
-      }`}
+          ? 'bg-transparent py-5' 
+          : 'bg-background/95 backdrop-blur-lg shadow-lg py-3 border-b border-border/50'
+      )}
     >
       <nav className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <Link 
             to="/" 
-            className="flex items-center gap-3 group"
+            className="flex items-center gap-4 group"
           >
-            {/* Logo Icon - Static with transparent background */}
+            {/* Logo Icon - Larger with more breathing room */}
             <div className="relative">
-              <img 
+              <motion.img 
                 src={logoIcon} 
                 alt="Cross Angle Interior"
-                className="h-12 md:h-14 w-auto"
+                className={cn(
+                  "w-auto transition-all duration-500",
+                  isScrolled ? "h-12 md:h-14" : "h-14 md:h-16"
+                )}
                 style={{ imageRendering: 'crisp-edges' }}
+                whileHover={{ scale: 1.05 }}
               />
             </div>
-            {/* Animated Brand Text with Shimmer */}
-            <div className="font-serif text-xl md:text-2xl font-bold transition-all duration-500 group-hover:tracking-wider group-hover:scale-105">
-              <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_auto] bg-clip-text text-transparent animate-text-shimmer">
+            {/* Animated Brand Text with Shimmer - Bolder */}
+            <div className="font-serif text-xl md:text-2xl lg:text-[1.7rem] font-bold transition-all duration-500 group-hover:tracking-wider">
+              <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_auto] bg-clip-text text-transparent animate-text-shimmer font-extrabold">
                 Crossangle
               </span>
               {" "}
-              <span className={`transition-colors duration-300 ${showTransparent ? 'text-primary-foreground' : 'text-foreground'}`}>
+              <span className={cn(
+                "transition-colors duration-300 font-semibold",
+                showTransparent ? 'text-primary-foreground' : 'text-foreground'
+              )}>
                 Interior
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
+          {/* Desktop Navigation - Increased gaps */}
+          <div className="hidden lg:flex items-center gap-10">
             {navLinks.map((link) => (
               <div
                 key={link.name}
@@ -97,8 +104,8 @@ const Navbar = () => {
                 <Link
                   to={link.href}
                   className={cn(
-                    "relative font-medium transition-colors duration-300 hover:text-primary group flex items-center gap-1",
-                    showTransparent ? 'text-primary-foreground/80' : 'text-muted-foreground',
+                    "relative font-medium transition-all duration-300 hover:text-primary group flex items-center gap-1 py-2",
+                    showTransparent ? 'text-primary-foreground/90' : 'text-muted-foreground',
                     location.pathname === link.href && 'text-primary'
                   )}
                 >
@@ -109,120 +116,173 @@ const Navbar = () => {
                       isMegaMenuOpen && "rotate-180"
                     )} />
                   )}
-                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${location.pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+                  <span className={cn(
+                    "absolute -bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 rounded-full",
+                    location.pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'
+                  )} />
                 </Link>
 
-                {/* Mega Menu */}
+                {/* Enhanced Mega Menu */}
                 {link.hasMegaMenu && (
-                  <div
-                    className={cn(
-                      "absolute top-full left-1/2 -translate-x-1/2 pt-4 transition-all duration-300",
-                      isMegaMenuOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
+                  <AnimatePresence>
+                    {isMegaMenuOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-full left-1/2 -translate-x-1/2 pt-4"
+                      >
+                        <div className="bg-background/98 backdrop-blur-xl rounded-2xl shadow-2xl border border-border/50 p-8 min-w-[720px]">
+                          <div className="grid grid-cols-3 gap-8">
+                            {/* Residential */}
+                            <div>
+                              <h4 className="font-semibold text-foreground mb-4 text-xs uppercase tracking-widest text-primary">
+                                Residential
+                              </h4>
+                              <ul className="space-y-1">
+                                {servicesMenu.residential.map((item) => (
+                                  <li key={item.name}>
+                                    <Link
+                                      to={item.href}
+                                      className="group/item flex items-start gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors"
+                                      onClick={() => setIsMegaMenuOpen(false)}
+                                    >
+                                      <item.icon className="w-5 h-5 text-primary mt-0.5 group-hover/item:scale-110 transition-transform" />
+                                      <div>
+                                        <span className="text-foreground font-medium text-sm block group-hover/item:text-primary transition-colors">
+                                          {item.name}
+                                        </span>
+                                        <span className="text-muted-foreground text-xs">
+                                          {item.description}
+                                        </span>
+                                      </div>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            {/* Commercial */}
+                            <div>
+                              <h4 className="font-semibold text-foreground mb-4 text-xs uppercase tracking-widest text-primary">
+                                Commercial
+                              </h4>
+                              <ul className="space-y-1">
+                                {servicesMenu.commercial.map((item) => (
+                                  <li key={item.name}>
+                                    <Link
+                                      to={item.href}
+                                      className="group/item flex items-start gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors"
+                                      onClick={() => setIsMegaMenuOpen(false)}
+                                    >
+                                      <item.icon className="w-5 h-5 text-primary mt-0.5 group-hover/item:scale-110 transition-transform" />
+                                      <div>
+                                        <span className="text-foreground font-medium text-sm block group-hover/item:text-primary transition-colors">
+                                          {item.name}
+                                        </span>
+                                        <span className="text-muted-foreground text-xs">
+                                          {item.description}
+                                        </span>
+                                      </div>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            {/* Specialized */}
+                            <div>
+                              <h4 className="font-semibold text-foreground mb-4 text-xs uppercase tracking-widest text-primary">
+                                Specialized
+                              </h4>
+                              <ul className="space-y-1">
+                                {servicesMenu.specialized.map((item) => (
+                                  <li key={item.name}>
+                                    <Link
+                                      to={item.href}
+                                      className="group/item flex items-start gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors"
+                                      onClick={() => setIsMegaMenuOpen(false)}
+                                    >
+                                      <item.icon className="w-5 h-5 text-primary mt-0.5 group-hover/item:scale-110 transition-transform" />
+                                      <div className="flex-1">
+                                        <div className="flex items-center gap-2">
+                                          <span className="text-foreground font-medium text-sm group-hover/item:text-primary transition-colors">
+                                            {item.name}
+                                          </span>
+                                          {item.badge && (
+                                            <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">
+                                              {item.badge}
+                                            </span>
+                                          )}
+                                        </div>
+                                        <span className="text-muted-foreground text-xs">
+                                          {item.description}
+                                        </span>
+                                      </div>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+
+                          {/* CTA in Mega Menu */}
+                          <div className="mt-6 pt-6 border-t border-border/50 flex items-center justify-between">
+                            <p className="text-sm text-muted-foreground">
+                              Not sure what you need? Let's discuss your vision.
+                            </p>
+                            <Link to="/contact-us" onClick={() => setIsMegaMenuOpen(false)}>
+                              <Button size="sm" className="shadow-lg shadow-primary/20">
+                                Book Free Consultation
+                              </Button>
+                            </Link>
+                          </div>
+                        </div>
+                      </motion.div>
                     )}
-                  >
-                    <div className="bg-background/95 backdrop-blur-lg rounded-2xl shadow-xl border border-border p-6 min-w-[600px]">
-                      <div className="grid grid-cols-3 gap-6">
-                        {/* Residential */}
-                        <div>
-                          <h4 className="font-semibold text-foreground mb-3 text-sm uppercase tracking-wider">
-                            Residential
-                          </h4>
-                          <ul className="space-y-2">
-                            {servicesMenu.residential.map((item) => (
-                              <li key={item.name}>
-                                <Link
-                                  to={item.href}
-                                  className="text-muted-foreground hover:text-primary transition-colors text-sm block py-1"
-                                  onClick={() => setIsMegaMenuOpen(false)}
-                                >
-                                  {item.name}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        {/* Commercial */}
-                        <div>
-                          <h4 className="font-semibold text-foreground mb-3 text-sm uppercase tracking-wider">
-                            Commercial
-                          </h4>
-                          <ul className="space-y-2">
-                            {servicesMenu.commercial.map((item) => (
-                              <li key={item.name}>
-                                <Link
-                                  to={item.href}
-                                  className="text-muted-foreground hover:text-primary transition-colors text-sm block py-1"
-                                  onClick={() => setIsMegaMenuOpen(false)}
-                                >
-                                  {item.name}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        {/* Specialized */}
-                        <div>
-                          <h4 className="font-semibold text-foreground mb-3 text-sm uppercase tracking-wider">
-                            Specialized
-                          </h4>
-                          <ul className="space-y-2">
-                            {servicesMenu.specialized.map((item) => (
-                              <li key={item.name}>
-                                <Link
-                                  to={item.href}
-                                  className="text-muted-foreground hover:text-primary transition-colors text-sm block py-1"
-                                  onClick={() => setIsMegaMenuOpen(false)}
-                                >
-                                  {item.name}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-
-                      {/* CTA in Mega Menu */}
-                      <div className="mt-6 pt-4 border-t border-border flex items-center justify-between">
-                        <p className="text-sm text-muted-foreground">
-                          Not sure what you need?
-                        </p>
-                        <Link to="/contact-us" onClick={() => setIsMegaMenuOpen(false)}>
-                          <Button size="sm">Get Free Consultation</Button>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
+                  </AnimatePresence>
                 )}
               </div>
             ))}
           </div>
 
-          <div className="hidden lg:flex items-center gap-4">
+          {/* Phone + CTA - Enhanced */}
+          <div className="hidden lg:flex items-center gap-6">
             <a 
-              href="tel:+917909041132" 
-              className={`flex items-center gap-2 font-medium transition-colors duration-300 hover:text-primary ${
+              href="https://wa.me/917909041132" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                "flex flex-col items-end transition-colors duration-300 hover:text-primary group",
                 showTransparent ? 'text-primary-foreground' : 'text-foreground'
-              }`}
+              )}
             >
-              <Phone className="w-4 h-4" />
-              <span>+91 7909041132</span>
+              <span className="text-[10px] uppercase tracking-wider font-medium text-primary mb-0.5">
+                Free Site Visit
+              </span>
+              <span className="flex items-center gap-2 font-medium">
+                <MessageCircle className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                +91 7909041132
+              </span>
             </a>
             <Link to="/contact-us">
-              <Button className="shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300">
-                Get A Quote
+              <Button 
+                className="px-6 py-5 rounded-xl shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 transition-all duration-500 hover:-translate-y-0.5 font-medium"
+              >
+                Book Consultation
               </Button>
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className={`lg:hidden p-2 rounded-lg transition-colors ${
+            className={cn(
+              "lg:hidden p-2 rounded-xl transition-colors",
               showTransparent 
                 ? 'text-primary-foreground hover:bg-primary-foreground/10' 
                 : 'text-foreground hover:bg-accent'
-            }`}
+            )}
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
@@ -231,41 +291,62 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Navigation */}
-        <div 
-          className={`lg:hidden overflow-hidden transition-all duration-500 ${
-            isOpen ? 'max-h-[600px] opacity-100 mt-6' : 'max-h-0 opacity-0'
-          }`}
-        >
-          <div className="bg-background/95 backdrop-blur-lg rounded-2xl p-6 border border-border shadow-xl">
-            <div className="flex flex-col gap-4">
-              {navLinks.map((link, index) => (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  className={`transition-colors duration-300 font-medium text-lg py-2 border-b border-border/50 last:border-0 ${
-                    location.pathname === link.href ? 'text-primary' : 'text-foreground hover:text-primary'
-                  }`}
-                  onClick={() => setIsOpen(false)}
-                  style={{ animationDelay: `${index * 50}ms` }}
-                >
-                  {link.name}
-                </Link>
-              ))}
-              <div className="pt-4 flex flex-col gap-3">
-                <a 
-                  href="tel:+917909041132" 
-                  className="flex items-center gap-2 text-muted-foreground font-medium"
-                >
-                  <Phone className="w-4 h-4" />
-                  <span>+91 7909041132</span>
-                </a>
-                <Link to="/contact-us" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full shadow-lg">Get A Quote</Button>
-                </Link>
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div 
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="lg:hidden overflow-hidden mt-6"
+            >
+              <div className="bg-background/98 backdrop-blur-xl rounded-2xl p-6 border border-border/50 shadow-2xl">
+                <div className="flex flex-col gap-2">
+                  {navLinks.map((link, index) => (
+                    <motion.div
+                      key={link.name}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                    >
+                      <Link
+                        to={link.href}
+                        className={cn(
+                          "transition-colors duration-300 font-medium text-lg py-3 px-4 rounded-xl block",
+                          location.pathname === link.href 
+                            ? 'text-primary bg-primary/10' 
+                            : 'text-foreground hover:text-primary hover:bg-accent/50'
+                        )}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {link.name}
+                      </Link>
+                    </motion.div>
+                  ))}
+                  <div className="pt-4 mt-2 border-t border-border/50 flex flex-col gap-4">
+                    <a 
+                      href="https://wa.me/917909041132" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 text-muted-foreground font-medium px-4"
+                    >
+                      <MessageCircle className="w-5 h-5 text-primary" />
+                      <div>
+                        <span className="text-[10px] uppercase tracking-wider text-primary block">Free Site Visit</span>
+                        <span>+91 7909041132</span>
+                      </div>
+                    </a>
+                    <Link to="/contact-us" onClick={() => setIsOpen(false)}>
+                      <Button className="w-full shadow-lg py-6 rounded-xl text-base">
+                        Book Consultation
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </header>
   );

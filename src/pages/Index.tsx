@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
+import HomeHero from "@/components/home/HomeHero";
 import Services from "@/components/Services";
 import Portfolio from "@/components/Portfolio";
 import About from "@/components/About";
@@ -18,7 +18,7 @@ import { BeforeAfterShowcase } from "@/components/BeforeAfterShowcase";
 import ScrollProgress from "@/components/ScrollProgress";
 import CostCalculator from "@/components/CostCalculator";
 import FAQ from "@/components/FAQ";
-
+import Team from "@/components/Team";
 
 const Index = () => {
   return (
@@ -35,7 +35,6 @@ const Index = () => {
         />
       </Helmet>
       
-      {/* Skip to main content link for accessibility */}
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-lg"
@@ -50,7 +49,7 @@ const Index = () => {
         <SectionNavDots />
         <WhatsAppButton />
         <Navbar />
-        <Hero />
+        <HomeHero />
         <Services />
         <Process />
         <Portfolio />
@@ -58,6 +57,7 @@ const Index = () => {
         <CostCalculator />
         <TrustSection />
         <About />
+        <Team />
         <Testimonials />
         <CTASection />
         <FAQ />
