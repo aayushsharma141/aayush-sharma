@@ -5,6 +5,7 @@ import FixedSocialBar from "@/components/FixedSocialBar";
 import FloatingParticles from "@/components/FloatingParticles";
 import { Button } from "@/components/ui/button";
 import { Check, Award, Users, Target, Lightbulb } from "lucide-react";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const values = [
   {
@@ -187,6 +188,7 @@ const AboutPage = () => {
         </section>
 
         <Footer />
+        <ScrollToTop />
       </main>
     </>
   );

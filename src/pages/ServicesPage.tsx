@@ -5,6 +5,7 @@ import FixedSocialBar from "@/components/FixedSocialBar";
 import FloatingParticles from "@/components/FloatingParticles";
 import { Button } from "@/components/ui/button";
 import { Building2, Home, Trees, MessageSquare, Key, Box, Check } from "lucide-react";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const services = [
   {
@@ -145,6 +146,7 @@ const ServicesPage = () => {
         </section>
 
         <Footer />
+        <ScrollToTop />
       </main>
     </>
   );

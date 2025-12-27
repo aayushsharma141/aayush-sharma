@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import FixedSocialBar from "@/components/FixedSocialBar";
 import FloatingParticles from "@/components/FloatingParticles";
 import { cn } from "@/lib/utils";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const categories = [
   "All",
@@ -114,6 +115,7 @@ const GalleryPage = () => {
         </section>
 
         <Footer />
+        <ScrollToTop />
       </main>
     </>
   );
