@@ -7,7 +7,7 @@ interface Section {
 }
 
 const sections: Section[] = [
-  { id: "hero", label: "Home" },
+  { id: "home", label: "Home" },
   { id: "services", label: "Services" },
   { id: "portfolio", label: "Portfolio" },
   { id: "about", label: "About" },
@@ -16,7 +16,7 @@ const sections: Section[] = [
 ];
 
 const SectionNavDots = () => {
-  const [activeSection, setActiveSection] = useState("hero");
+  const [activeSection, setActiveSection] = useState("home");
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
