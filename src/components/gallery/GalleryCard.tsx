@@ -1,6 +1,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useState, useRef } from "react";
 import { Eye, Expand } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface GalleryCardProps {
   image: string;
@@ -20,6 +21,7 @@ const GalleryCard = ({
   size = 'normal'
 }: GalleryCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   const mouseX = useMotionValue(0);
@@ -83,6 +85,11 @@ const GalleryCard = ({
           transformStyle: 'preserve-3d'
         }}
       >
+        {/* Skeleton loader */}
+        {!isLoaded && (
+          <Skeleton className="absolute inset-0 w-full h-full rounded-none" />
+        )}
+
         {/* Image with parallax effect */}
         <motion.div 
           className="absolute inset-0"
@@ -94,8 +101,9 @@ const GalleryCard = ({
           <img
             src={image}
             alt={title || category}
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
             loading="lazy"
+            onLoad={() => setIsLoaded(true)}
           />
         </motion.div>
 

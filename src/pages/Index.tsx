@@ -33,6 +33,10 @@ const Index = () => {
           name="keywords"
           content="interior design, residential design, commercial design, luxury interiors, home design, space planning, Jamshedpur, Kolkata, modular kitchen, false ceiling"
         />
+        <meta property="og:title" content="Crossangle Interior | Premium Interior Design Studio" />
+        <meta property="og:description" content="Transform your vision into exquisite living spaces. Award-winning interior design in Jamshedpur & Kolkata." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://crossangleinterior.com/" />
       </Helmet>
       
       <a

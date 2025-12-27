@@ -23,6 +23,10 @@ const AboutPage = () => {
           name="description"
           content="Learn about Cross Angle Interior - Jamshedpur's premier interior design studio. Over a decade of expertise transforming spaces into stunning, functional environments."
         />
+        <meta property="og:title" content="About Cross Angle Interior" />
+        <meta property="og:description" content="Over a decade of expertise transforming spaces into stunning, functional environments." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://crossangleinterior.com/about-us" />
       </Helmet>
       
       <FloatingParticles count={25} />

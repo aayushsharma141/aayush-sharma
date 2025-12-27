@@ -19,6 +19,10 @@ const ServicesPage = () => {
           name="description"
           content="Explore our comprehensive interior design services including planning, interior design, exterior design, consultation, turnkey projects, and 3D miniature models."
         />
+        <meta property="og:title" content="Interior Design Services | Cross Angle Interior" />
+        <meta property="og:description" content="Comprehensive interior design services including planning, consultation, and turnkey projects." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://crossangleinterior.com/services" />
       </Helmet>
       
       <FloatingParticles count={25} />

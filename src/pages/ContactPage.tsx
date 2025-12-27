@@ -17,6 +17,10 @@ const ContactPage = () => {
           name="description"
           content="Contact Cross Angle Interior for your interior design needs. Get a free quote and consultation for residential and commercial projects in Jamshedpur."
         />
+        <meta property="og:title" content="Contact Cross Angle Interior" />
+        <meta property="og:description" content="Get a free quote and consultation for residential and commercial projects." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://crossangleinterior.com/contact-us" />
       </Helmet>
       <FloatingParticles count={25} />
       <main className="min-h-screen relative z-10">
