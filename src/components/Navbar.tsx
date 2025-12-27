@@ -98,15 +98,16 @@ const Navbar = () => {
               <div
                 key={link.name}
                 className="relative"
+                onMouseEnter={() => link.hasMegaMenu && setIsMegaMenuOpen(true)}
+                onMouseLeave={() => link.hasMegaMenu && setIsMegaMenuOpen(false)}
               >
                 <Link
                   to={link.href}
                   className={cn(
-                    "relative font-medium transition-all duration-300 hover:text-primary group flex items-center gap-1 py-2",
+                    "relative font-medium transition-all duration-300 hover:text-primary group flex items-center gap-1 py-4",
                     showTransparent ? 'text-primary-foreground/90' : 'text-muted-foreground',
                     location.pathname === link.href && 'text-primary'
                   )}
-                  onMouseEnter={() => link.hasMegaMenu && setIsMegaMenuOpen(true)}
                 >
                   {link.name}
                   {link.hasMegaMenu && (
@@ -120,149 +121,150 @@ const Navbar = () => {
                     location.pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'
                   )} />
                 </Link>
+                
+                {/* Mega Menu positioned under Services link */}
+                {link.hasMegaMenu && (
+                  <AnimatePresence>
+                    {isMegaMenuOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                        className="fixed left-1/2 -translate-x-1/2 z-50"
+                        style={{ top: isScrolled ? "70px" : "85px" }}
+                      >
+                        {/* Invisible bridge to prevent gap issue */}
+                        <div className="absolute -top-8 left-0 right-0 h-8" />
+                        
+                        <div className="bg-background backdrop-blur-xl rounded-2xl shadow-2xl border border-border p-8 min-w-[720px] relative overflow-hidden">
+                          {/* Solid background overlay */}
+                          <div className="absolute inset-0 bg-background" />
+                          {/* Subtle gradient overlay for depth */}
+                          <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.03] to-transparent pointer-events-none" />
+                          
+                          <div className="grid grid-cols-3 gap-8 relative z-10">
+                            {/* Residential */}
+                            <div>
+                              <h4 className="font-semibold mb-4 text-xs uppercase tracking-widest text-primary flex items-center gap-2">
+                                <span className="w-6 h-px bg-primary/50" />
+                                Residential
+                              </h4>
+                              <ul className="space-y-1">
+                                {servicesMenu.residential.map((item) => (
+                                  <li key={item.name}>
+                                    <Link
+                                      to={item.href}
+                                      className="group/item flex items-start gap-3 p-3 rounded-xl hover:bg-accent transition-all duration-300"
+                                      onClick={() => setIsMegaMenuOpen(false)}
+                                    >
+                                      <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover/item:bg-primary group-hover/item:scale-110 transition-all duration-300">
+                                        <item.icon className="w-4 h-4 text-primary group-hover/item:text-primary-foreground transition-colors" />
+                                      </div>
+                                      <div>
+                                        <span className="text-foreground font-medium text-sm block group-hover/item:text-primary transition-colors">
+                                          {item.name}
+                                        </span>
+                                        <span className="text-muted-foreground text-xs">
+                                          {item.description}
+                                        </span>
+                                      </div>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            {/* Commercial */}
+                            <div>
+                              <h4 className="font-semibold mb-4 text-xs uppercase tracking-widest text-primary flex items-center gap-2">
+                                <span className="w-6 h-px bg-primary/50" />
+                                Commercial
+                              </h4>
+                              <ul className="space-y-1">
+                                {servicesMenu.commercial.map((item) => (
+                                  <li key={item.name}>
+                                    <Link
+                                      to={item.href}
+                                      className="group/item flex items-start gap-3 p-3 rounded-xl hover:bg-accent transition-all duration-300"
+                                      onClick={() => setIsMegaMenuOpen(false)}
+                                    >
+                                      <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover/item:bg-primary group-hover/item:scale-110 transition-all duration-300">
+                                        <item.icon className="w-4 h-4 text-primary group-hover/item:text-primary-foreground transition-colors" />
+                                      </div>
+                                      <div>
+                                        <span className="text-foreground font-medium text-sm block group-hover/item:text-primary transition-colors">
+                                          {item.name}
+                                        </span>
+                                        <span className="text-muted-foreground text-xs">
+                                          {item.description}
+                                        </span>
+                                      </div>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            {/* Specialized */}
+                            <div>
+                              <h4 className="font-semibold mb-4 text-xs uppercase tracking-widest text-primary flex items-center gap-2">
+                                <span className="w-6 h-px bg-primary/50" />
+                                Specialized
+                              </h4>
+                              <ul className="space-y-1">
+                                {servicesMenu.specialized.map((item) => (
+                                  <li key={item.name}>
+                                    <Link
+                                      to={item.href}
+                                      className="group/item flex items-start gap-3 p-3 rounded-xl hover:bg-accent transition-all duration-300"
+                                      onClick={() => setIsMegaMenuOpen(false)}
+                                    >
+                                      <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover/item:bg-primary group-hover/item:scale-110 transition-all duration-300">
+                                        <item.icon className="w-4 h-4 text-primary group-hover/item:text-primary-foreground transition-colors" />
+                                      </div>
+                                      <div className="flex-1">
+                                        <div className="flex items-center gap-2">
+                                          <span className="text-foreground font-medium text-sm group-hover/item:text-primary transition-colors">
+                                            {item.name}
+                                          </span>
+                                          {item.badge && (
+                                            <span className="text-[10px] bg-primary/15 text-primary px-2 py-0.5 rounded-full font-medium border border-primary/20">
+                                              {item.badge}
+                                            </span>
+                                          )}
+                                        </div>
+                                        <span className="text-muted-foreground text-xs">
+                                          {item.description}
+                                        </span>
+                                      </div>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+
+                          {/* CTA in Mega Menu */}
+                          <div className="mt-8 pt-6 border-t border-border flex items-center justify-between relative z-10">
+                            <p className="text-sm text-muted-foreground">
+                              Not sure what you need? Let's discuss your vision.
+                            </p>
+                            <Link to="/contact-us" onClick={() => setIsMegaMenuOpen(false)}>
+                              <Button size="sm" className="shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all">
+                                Book Free Consultation
+                              </Button>
+                            </Link>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                )}
               </div>
             ))}
           </div>
 
-          {/* Enhanced Mega Menu - Centered with Solid Blurred Background */}
-          <AnimatePresence>
-            {isMegaMenuOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-                className="fixed left-1/2 -translate-x-1/2 z-50"
-                style={{ top: isScrolled ? "70px" : "85px" }}
-                onMouseEnter={() => setIsMegaMenuOpen(true)}
-                onMouseLeave={() => setIsMegaMenuOpen(false)}
-              >
-                {/* Invisible bridge to prevent gap issue */}
-                <div className="absolute -top-6 left-0 right-0 h-6" />
-                
-                <div className="bg-background backdrop-blur-xl rounded-2xl shadow-2xl border border-border p-8 min-w-[720px] relative overflow-hidden">
-                  {/* Solid background overlay */}
-                  <div className="absolute inset-0 bg-background" />
-                  {/* Subtle gradient overlay for depth */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.03] to-transparent pointer-events-none" />
-                  
-                  <div className="grid grid-cols-3 gap-8 relative z-10">
-                    {/* Residential */}
-                    <div>
-                      <h4 className="font-semibold mb-4 text-xs uppercase tracking-widest text-primary flex items-center gap-2">
-                        <span className="w-6 h-px bg-primary/50" />
-                        Residential
-                      </h4>
-                      <ul className="space-y-1">
-                        {servicesMenu.residential.map((item) => (
-                          <li key={item.name}>
-                            <Link
-                              to={item.href}
-                              className="group/item flex items-start gap-3 p-3 rounded-xl hover:bg-accent transition-all duration-300"
-                              onClick={() => setIsMegaMenuOpen(false)}
-                            >
-                              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover/item:bg-primary group-hover/item:scale-110 transition-all duration-300">
-                                <item.icon className="w-4 h-4 text-primary group-hover/item:text-primary-foreground transition-colors" />
-                              </div>
-                              <div>
-                                <span className="text-foreground font-medium text-sm block group-hover/item:text-primary transition-colors">
-                                  {item.name}
-                                </span>
-                                <span className="text-muted-foreground text-xs">
-                                  {item.description}
-                                </span>
-                              </div>
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Commercial */}
-                    <div>
-                      <h4 className="font-semibold mb-4 text-xs uppercase tracking-widest text-primary flex items-center gap-2">
-                        <span className="w-6 h-px bg-primary/50" />
-                        Commercial
-                      </h4>
-                      <ul className="space-y-1">
-                        {servicesMenu.commercial.map((item) => (
-                          <li key={item.name}>
-                            <Link
-                              to={item.href}
-                              className="group/item flex items-start gap-3 p-3 rounded-xl hover:bg-accent transition-all duration-300"
-                              onClick={() => setIsMegaMenuOpen(false)}
-                            >
-                              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover/item:bg-primary group-hover/item:scale-110 transition-all duration-300">
-                                <item.icon className="w-4 h-4 text-primary group-hover/item:text-primary-foreground transition-colors" />
-                              </div>
-                              <div>
-                                <span className="text-foreground font-medium text-sm block group-hover/item:text-primary transition-colors">
-                                  {item.name}
-                                </span>
-                                <span className="text-muted-foreground text-xs">
-                                  {item.description}
-                                </span>
-                              </div>
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Specialized */}
-                    <div>
-                      <h4 className="font-semibold mb-4 text-xs uppercase tracking-widest text-primary flex items-center gap-2">
-                        <span className="w-6 h-px bg-primary/50" />
-                        Specialized
-                      </h4>
-                      <ul className="space-y-1">
-                        {servicesMenu.specialized.map((item) => (
-                          <li key={item.name}>
-                            <Link
-                              to={item.href}
-                              className="group/item flex items-start gap-3 p-3 rounded-xl hover:bg-accent transition-all duration-300"
-                              onClick={() => setIsMegaMenuOpen(false)}
-                            >
-                              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover/item:bg-primary group-hover/item:scale-110 transition-all duration-300">
-                                <item.icon className="w-4 h-4 text-primary group-hover/item:text-primary-foreground transition-colors" />
-                              </div>
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2">
-                                  <span className="text-foreground font-medium text-sm group-hover/item:text-primary transition-colors">
-                                    {item.name}
-                                  </span>
-                                  {item.badge && (
-                                    <span className="text-[10px] bg-primary/15 text-primary px-2 py-0.5 rounded-full font-medium border border-primary/20">
-                                      {item.badge}
-                                    </span>
-                                  )}
-                                </div>
-                                <span className="text-muted-foreground text-xs">
-                                  {item.description}
-                                </span>
-                              </div>
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  {/* CTA in Mega Menu */}
-                  <div className="mt-8 pt-6 border-t border-border flex items-center justify-between relative z-10">
-                    <p className="text-sm text-muted-foreground">
-                      Not sure what you need? Let's discuss your vision.
-                    </p>
-                    <Link to="/contact-us" onClick={() => setIsMegaMenuOpen(false)}>
-                      <Button size="sm" className="shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all">
-                        Book Free Consultation
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
 
           {/* Phone + CTA - Enhanced */}
           <div className="hidden lg:flex items-center gap-6">
