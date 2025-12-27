@@ -115,12 +115,6 @@ export default {
 			'text-shimmer': {
 				'0%': { backgroundPosition: '-200% center' },
 				'100%': { backgroundPosition: '200% center' }
-			},
-			'magnetic-slide': {
-				'0%': { transform: 'translateX(100%)', opacity: '0' },
-				'10%': { transform: 'translateX(0)', opacity: '1' },
-				'90%': { transform: 'translateX(0)', opacity: '1' },
-				'100%': { transform: 'translateX(-100%)', opacity: '0' }
 			}
 		},
 		animation: {
@@ -132,8 +126,7 @@ export default {
 			'logo-spin': 'logo-spin 12s linear infinite',
 			'logo-pulse-glow': 'logo-pulse-glow 2.5s ease-in-out infinite',
 			'logo-breathe': 'logo-breathe 3s ease-in-out infinite',
-			'text-shimmer': 'text-shimmer 4s ease-in-out infinite',
-			'magnetic-slide': 'magnetic-slide 3s ease-in-out infinite'
+			'text-shimmer': 'text-shimmer 4s ease-in-out infinite'
 		},
   		boxShadow: {
   			'2xs': 'var(--shadow-2xs)',
