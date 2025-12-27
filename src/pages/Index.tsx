@@ -18,7 +18,7 @@ import { BeforeAfterShowcase } from "@/components/BeforeAfterShowcase";
 import ScrollProgress from "@/components/ScrollProgress";
 import CostCalculator from "@/components/CostCalculator";
 import FAQ from "@/components/FAQ";
-import ScrollToTop from "@/components/ScrollToTop";
+
 
 const Index = () => {
   return (
@@ -63,7 +63,6 @@ const Index = () => {
         <FAQ />
         <Contact />
         <Footer />
-        <ScrollToTop />
       </main>
     </>
   );

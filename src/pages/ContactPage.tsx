@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { MapPin, Phone, Mail } from "lucide-react";
+import ScrollToTop from "@/components/ScrollToTop";
 import {
   Select,
   SelectContent,
@@ -289,6 +290,7 @@ const ContactPage = () => {
         </section>
 
         <Footer />
+        <ScrollToTop />
       </main>
     </>
   );

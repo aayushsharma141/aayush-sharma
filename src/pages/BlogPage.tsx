@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import FixedSocialBar from "@/components/FixedSocialBar";
 import FloatingParticles from "@/components/FloatingParticles";
 import { Button } from "@/components/ui/button";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const blogPosts = [
   {
@@ -191,6 +192,7 @@ const BlogPage = () => {
         </section>
 
         <Footer />
+        <ScrollToTop />
       </main>
     </>
   );
