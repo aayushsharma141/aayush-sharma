@@ -32,6 +32,12 @@ All colors MUST be HSL.
     --accent: 43 30% 90%;
     --accent-foreground: 43 74% 35%;
 
+    /* Teal gradient colors from original site */
+    --teal: 160 98% 33%;
+    --teal-foreground: 0 0% 100%;
+    --sky: 213 94% 68%;
+    --sky-foreground: 0 0% 100%;
+
     --destructive: 0 72% 50%;
     --destructive-foreground: 0 85% 97%;
 
@@ -97,6 +103,12 @@ All colors MUST be HSL.
     --accent: 43 40% 18%;
     --accent-foreground: 43 74% 70%;
 
+    /* Teal gradient colors from original site */
+    --teal: 160 98% 40%;
+    --teal-foreground: 0 0% 100%;
+    --sky: 213 94% 72%;
+    --sky-foreground: 0 0% 100%;
+
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 85% 97%;
 
@@ -139,5 +151,23 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Gradient utilities */
+@layer utilities {
+  .bg-gradient-teal {
+    background: linear-gradient(to right, hsl(var(--teal)), hsl(var(--sky)));
+  }
+  
+  .text-gradient-teal {
+    background: linear-gradient(to right, hsl(var(--teal)), hsl(var(--sky)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .border-gradient-teal {
+    border-image: linear-gradient(to right, hsl(var(--teal)), hsl(var(--sky))) 1;
   }
 }
