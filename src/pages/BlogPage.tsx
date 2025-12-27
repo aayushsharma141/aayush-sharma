@@ -67,6 +67,10 @@ const BlogPage = () => {
           name="description"
           content="Read the latest interior design tips, trends, and inspiration from Cross Angle Interior. Get expert advice on transforming your spaces."
         />
+        <meta property="og:title" content="Interior Design Blog | Cross Angle Interior" />
+        <meta property="og:description" content="Read the latest interior design tips, trends, and inspiration." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://crossangleinterior.com/blog" />
       </Helmet>
       <FloatingParticles count={30} />
       <main className="min-h-screen relative z-10">

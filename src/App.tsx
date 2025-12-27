@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AnimatePresence } from "framer-motion";
 import Index from "./pages/Index";
@@ -30,6 +30,9 @@ const AnimatedRoutes = () => {
         <Route path="/blog" element={<PageTransition><BlogPage /></PageTransition>} />
         <Route path="/contact-us" element={<PageTransition><ContactPage /></PageTransition>} />
         <Route path="/portfolio/:slug" element={<PageTransition><ProjectPage /></PageTransition>} />
+        {/* Redirect routes for common variations */}
+        <Route path="/about" element={<Navigate to="/about-us" replace />} />
+        <Route path="/contact" element={<Navigate to="/contact-us" replace />} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>

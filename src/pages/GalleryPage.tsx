@@ -171,6 +171,10 @@ const GalleryPage = () => {
           name="description"
           content="Browse our portfolio of stunning interior design projects including modular kitchens, bedrooms, living rooms, commercial spaces, and exteriors."
         />
+        <meta property="og:title" content="Portfolio Gallery | Cross Angle Interior" />
+        <meta property="og:description" content="Browse our portfolio of stunning interior design projects." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://crossangleinterior.com/gallery" />
       </Helmet>
 
       <CursorSpotlight>
