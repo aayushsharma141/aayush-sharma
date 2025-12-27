@@ -66,7 +66,8 @@ const Process = () => {
     <section
       id="process"
       ref={sectionRef}
-      className="py-24 md:py-32 relative overflow-hidden bg-muted/30"
+      className="py-24 md:py-32 relative overflow-hidden"
+      style={{ background: 'var(--gradient-brand-subtle)' }}
     >
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
@@ -129,7 +130,7 @@ const Process = () => {
               >
                 <h4 className="font-semibold">{step.title}</h4>
                 <p className="text-sm mt-1">{step.subtitle}</p>
-                <span className="inline-block mt-2 px-3 py-1 rounded-full text-xs bg-primary/10 text-primary font-medium">
+                <span className="inline-block mt-2 px-3 py-1 rounded-full text-xs bg-primary/10 text-primary font-medium border border-primary/20">
                   {step.duration}
                 </span>
               </div>
@@ -139,11 +140,11 @@ const Process = () => {
           {/* Active Step Details */}
           <div
             className={cn(
-              "max-w-2xl mx-auto p-8 rounded-2xl bg-background border border-border shadow-lg text-center transition-all duration-500",
+              "max-w-2xl mx-auto p-8 rounded-2xl bg-background border border-primary/20 shadow-lg text-center transition-all duration-500",
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             )}
           >
-            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 border border-primary/20">
               {(() => {
                 const Icon = steps[activeStep].icon;
                 return <Icon className="w-6 h-6 text-primary" />;
@@ -180,7 +181,7 @@ const Process = () => {
                     <Icon className="w-5 h-5" />
                   </div>
                   {index < steps.length - 1 && (
-                    <div className="w-0.5 h-full bg-border my-2" />
+                    <div className="w-0.5 h-full bg-primary/30 my-2" />
                   )}
                 </div>
 
@@ -188,7 +189,7 @@ const Process = () => {
                 <div className="pb-6">
                   <div className="flex items-center gap-2 mb-1">
                     <h4 className="font-semibold text-foreground">{step.title}</h4>
-                    <span className="px-2 py-0.5 rounded-full text-xs bg-primary/10 text-primary font-medium">
+                    <span className="px-2 py-0.5 rounded-full text-xs bg-primary/10 text-primary font-medium border border-primary/20">
                       {step.duration}
                     </span>
                   </div>

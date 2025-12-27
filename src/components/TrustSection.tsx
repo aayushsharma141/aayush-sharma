@@ -69,8 +69,12 @@ const TrustSection = () => {
       ref={sectionRef}
       className="py-24 md:py-32 relative overflow-hidden"
     >
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/20 to-background z-0" />
+      {/* Background with brand gradient */}
+      <div 
+        className="absolute inset-0 z-0 opacity-30"
+        style={{ background: 'var(--gradient-brand-subtle)' }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background z-0" />
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
@@ -95,13 +99,13 @@ const TrustSection = () => {
                 key={index}
                 className={cn(
                   "p-6 rounded-2xl bg-background border border-border",
-                  "hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5",
+                  "hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10",
                   "transition-all duration-500 group",
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 )}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                   <Icon className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
@@ -126,7 +130,7 @@ const TrustSection = () => {
             {brandPartners.map((partner, index) => (
               <div
                 key={index}
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-muted/50 border border-border hover:border-primary/30 transition-colors"
+                className="flex items-center gap-2 px-6 py-3 rounded-full bg-background border border-primary/20 hover:border-primary/40 hover:shadow-md hover:shadow-primary/10 transition-all"
               >
                 <span className="text-2xl">{partner.logo}</span>
                 <span className="font-medium text-foreground">{partner.name}</span>
