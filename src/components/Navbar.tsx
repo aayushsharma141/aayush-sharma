@@ -79,8 +79,12 @@ const Navbar = () => {
                 Crossangle
               </span>
               {" "}
-              <span className={`transition-colors duration-300 ${showTransparent ? 'text-primary-foreground' : 'text-foreground'}`}>
-                Interior
+              <span 
+                className={`inline-block overflow-hidden ${showTransparent ? 'text-primary-foreground' : 'text-foreground'}`}
+              >
+                <span className="inline-block animate-magnetic-slide">
+                  Interior
+                </span>
               </span>
             </div>
           </Link>
