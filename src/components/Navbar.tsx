@@ -131,8 +131,7 @@ const Navbar = () => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.98 }}
                         transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-                        className="fixed left-1/2 -translate-x-1/2 z-50"
-                        style={{ top: isScrolled ? "70px" : "85px" }}
+                        className="absolute left-1/2 -translate-x-1/2 z-50 pt-4"
                       >
                         {/* Invisible bridge to prevent gap issue */}
                         <div className="absolute -top-8 left-0 right-0 h-8" />
