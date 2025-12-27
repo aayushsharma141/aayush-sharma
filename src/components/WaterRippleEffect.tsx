@@ -6,6 +6,7 @@ interface Ripple {
   size: number;
   opacity: number;
   id: number;
+  isClick?: boolean;
 }
 
 const WaterRippleEffect = () => {
@@ -25,7 +26,7 @@ const WaterRippleEffect = () => {
       const y = e.clientY - rect.top;
       setMousePos({ x, y });
 
-      // Create new ripple
+      // Create new ripple on hover
       rippleId.current += 1;
       const newRipple: Ripple = {
         x,
@@ -38,15 +39,36 @@ const WaterRippleEffect = () => {
       setRipples((prev) => [...prev.slice(-15), newRipple]);
     };
 
+    const handleClick = (e: MouseEvent) => {
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Create larger click ripple
+      rippleId.current += 1;
+      const clickRipple: Ripple = {
+        x,
+        y,
+        size: 0,
+        opacity: 1,
+        id: rippleId.current,
+        isClick: true,
+      };
+
+      setRipples((prev) => [...prev, clickRipple]);
+    };
+
     const handleMouseEnter = () => setIsHovering(true);
     const handleMouseLeave = () => setIsHovering(false);
 
     container.addEventListener("mousemove", handleMouseMove);
+    container.addEventListener("click", handleClick);
     container.addEventListener("mouseenter", handleMouseEnter);
     container.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
       container.removeEventListener("mousemove", handleMouseMove);
+      container.removeEventListener("click", handleClick);
       container.removeEventListener("mouseenter", handleMouseEnter);
       container.removeEventListener("mouseleave", handleMouseLeave);
     };
@@ -59,8 +81,8 @@ const WaterRippleEffect = () => {
         prev
           .map((ripple) => ({
             ...ripple,
-            size: ripple.size + 8,
-            opacity: ripple.opacity - 0.02,
+            size: ripple.size + (ripple.isClick ? 15 : 8),
+            opacity: ripple.opacity - (ripple.isClick ? 0.015 : 0.02),
           }))
           .filter((ripple) => ripple.opacity > 0)
       );
@@ -75,14 +97,20 @@ const WaterRippleEffect = () => {
       {ripples.map((ripple) => (
         <div
           key={ripple.id}
-          className="absolute rounded-full border border-primary/40 pointer-events-none"
+          className={`absolute rounded-full pointer-events-none ${
+            ripple.isClick 
+              ? "border-2 border-primary/60" 
+              : "border border-primary/40"
+          }`}
           style={{
             left: ripple.x - ripple.size / 2,
             top: ripple.y - ripple.size / 2,
             width: ripple.size,
             height: ripple.size,
             opacity: ripple.opacity,
-            boxShadow: `0 0 ${ripple.size / 4}px hsl(var(--primary) / 0.2), inset 0 0 ${ripple.size / 6}px hsl(var(--primary) / 0.1)`,
+            boxShadow: ripple.isClick
+              ? `0 0 ${ripple.size / 3}px hsl(var(--primary) / 0.4), inset 0 0 ${ripple.size / 4}px hsl(var(--primary) / 0.2)`
+              : `0 0 ${ripple.size / 4}px hsl(var(--primary) / 0.2), inset 0 0 ${ripple.size / 6}px hsl(var(--primary) / 0.1)`,
             transition: "none",
           }}
         />
