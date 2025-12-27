@@ -3,12 +3,15 @@ import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-interior.jpg";
 import WaterRippleEffect from "./WaterRippleEffect";
 import FloatingParticles from "./FloatingParticles";
+import VideoModal from "./VideoModal";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -91,25 +94,30 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className={`flex flex-col sm:flex-row gap-4 mb-12 transition-all duration-1000 delay-600 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-            <Button size="lg" className="group text-lg px-8 py-6 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-500 hover:-translate-y-1">
-              Start Your Project
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-2" />
-            </Button>
+            <Link to="/contact-us">
+              <Button size="lg" className="group text-lg px-8 py-6 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-500 hover:-translate-y-1">
+                Start Your Project
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-2" />
+              </Button>
+            </Link>
             <Button 
               size="lg" 
               variant="outline" 
+              onClick={() => setIsVideoOpen(true)}
               className="bg-primary-foreground/5 backdrop-blur-md border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground hover:text-foreground text-lg px-8 py-6 group transition-all duration-500 hover:-translate-y-1"
             >
               <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
               Watch Showreel
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="bg-primary/10 backdrop-blur-md border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground text-lg px-8 py-6 group transition-all duration-500 hover:-translate-y-1"
-            >
-              Free Consultation
-            </Button>
+            <Link to="/contact-us">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="bg-primary/10 backdrop-blur-md border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground text-lg px-8 py-6 group transition-all duration-500 hover:-translate-y-1"
+              >
+                Free Consultation
+              </Button>
+            </Link>
           </div>
 
           {/* Trust Badges */}
@@ -144,19 +152,11 @@ const Hero = () => {
         </div>
       </button>
 
-      {/* Side Navigation Dots */}
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-4 z-10">
-        {["Home", "Services", "Portfolio"].map((label, i) => (
-          <div key={label} className="group relative">
-            <div 
-              className={`w-3 h-3 rounded-full border-2 transition-all duration-300 cursor-pointer hover:scale-150 ${i === 0 ? 'border-primary bg-primary' : 'border-primary-foreground/30 hover:border-primary'}`}
-            />
-            <span className="absolute right-full mr-4 top-1/2 -translate-y-1/2 text-sm text-primary-foreground/60 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-              {label}
-            </span>
-          </div>
-        ))}
-      </div>
+      {/* Video Modal */}
+      <VideoModal 
+        isOpen={isVideoOpen} 
+        onClose={() => setIsVideoOpen(false)} 
+      />
     </section>
   );
 };

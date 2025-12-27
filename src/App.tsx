@@ -10,6 +10,7 @@ import ServicesPage from "./pages/ServicesPage";
 import GalleryPage from "./pages/GalleryPage";
 import BlogPage from "./pages/BlogPage";
 import ContactPage from "./pages/ContactPage";
+import ProjectPage from "./pages/ProjectPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/contact-us" element={<ContactPage />} />
+            <Route path="/portfolio/:slug" element={<ProjectPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

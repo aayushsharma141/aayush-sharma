@@ -151,7 +151,7 @@ export default {
   				'sans-serif'
   			],
   			serif: [
-  				'Libre Caslon Text',
+  				'Playfair Display',
   				'ui-serif',
   				'Georgia',
   				'Cambria',

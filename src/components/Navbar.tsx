@@ -1,12 +1,33 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoIcon from "@/assets/logo-icon.png";
+import { cn } from "@/lib/utils";
+
+const servicesMenu = {
+  residential: [
+    { name: "Living Room Design", href: "/services#living-room" },
+    { name: "Bedroom Interior", href: "/services#bedroom" },
+    { name: "Kitchen & Dining", href: "/services#kitchen" },
+    { name: "Bathroom Design", href: "/services#bathroom" },
+  ],
+  commercial: [
+    { name: "Office Design", href: "/services#office" },
+    { name: "Retail Spaces", href: "/services#retail" },
+    { name: "Restaurant & Cafe", href: "/services#restaurant" },
+  ],
+  specialized: [
+    { name: "Modular Kitchen", href: "/services#modular-kitchen" },
+    { name: "False Ceiling", href: "/services#false-ceiling" },
+    { name: "Lighting Design", href: "/services#lighting" },
+  ],
+};
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -20,7 +41,7 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about-us" },
-    { name: "Services", href: "/services" },
+    { name: "Services", href: "/services", hasMegaMenu: true },
     { name: "Our Works", href: "/gallery" },
     { name: "Blog", href: "/blog" },
     { name: "Contact Us", href: "/contact-us" },
@@ -54,7 +75,7 @@ const Navbar = () => {
             </div>
             {/* Animated Brand Text with Shimmer */}
             <div className="font-serif text-xl md:text-2xl font-bold transition-all duration-500 group-hover:tracking-wider group-hover:scale-105">
-              <span className="bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] bg-clip-text text-transparent animate-text-shimmer">
+              <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_auto] bg-clip-text text-transparent animate-text-shimmer">
                 Crossangle
               </span>
               {" "}
@@ -67,16 +88,114 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
-              <Link
+              <div
                 key={link.name}
-                to={link.href}
-                className={`relative font-medium transition-colors duration-300 hover:text-primary group ${
-                  showTransparent ? 'text-primary-foreground/80' : 'text-muted-foreground'
-                } ${location.pathname === link.href ? 'text-primary' : ''}`}
+                className="relative"
+                onMouseEnter={() => link.hasMegaMenu && setIsMegaMenuOpen(true)}
+                onMouseLeave={() => link.hasMegaMenu && setIsMegaMenuOpen(false)}
               >
-                {link.name}
-                <span className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${location.pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'}`} />
-              </Link>
+                <Link
+                  to={link.href}
+                  className={cn(
+                    "relative font-medium transition-colors duration-300 hover:text-primary group flex items-center gap-1",
+                    showTransparent ? 'text-primary-foreground/80' : 'text-muted-foreground',
+                    location.pathname === link.href && 'text-primary'
+                  )}
+                >
+                  {link.name}
+                  {link.hasMegaMenu && (
+                    <ChevronDown className={cn(
+                      "w-4 h-4 transition-transform duration-300",
+                      isMegaMenuOpen && "rotate-180"
+                    )} />
+                  )}
+                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${location.pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+                </Link>
+
+                {/* Mega Menu */}
+                {link.hasMegaMenu && (
+                  <div
+                    className={cn(
+                      "absolute top-full left-1/2 -translate-x-1/2 pt-4 transition-all duration-300",
+                      isMegaMenuOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
+                    )}
+                  >
+                    <div className="bg-background/95 backdrop-blur-lg rounded-2xl shadow-xl border border-border p-6 min-w-[600px]">
+                      <div className="grid grid-cols-3 gap-6">
+                        {/* Residential */}
+                        <div>
+                          <h4 className="font-semibold text-foreground mb-3 text-sm uppercase tracking-wider">
+                            Residential
+                          </h4>
+                          <ul className="space-y-2">
+                            {servicesMenu.residential.map((item) => (
+                              <li key={item.name}>
+                                <Link
+                                  to={item.href}
+                                  className="text-muted-foreground hover:text-primary transition-colors text-sm block py-1"
+                                  onClick={() => setIsMegaMenuOpen(false)}
+                                >
+                                  {item.name}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Commercial */}
+                        <div>
+                          <h4 className="font-semibold text-foreground mb-3 text-sm uppercase tracking-wider">
+                            Commercial
+                          </h4>
+                          <ul className="space-y-2">
+                            {servicesMenu.commercial.map((item) => (
+                              <li key={item.name}>
+                                <Link
+                                  to={item.href}
+                                  className="text-muted-foreground hover:text-primary transition-colors text-sm block py-1"
+                                  onClick={() => setIsMegaMenuOpen(false)}
+                                >
+                                  {item.name}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Specialized */}
+                        <div>
+                          <h4 className="font-semibold text-foreground mb-3 text-sm uppercase tracking-wider">
+                            Specialized
+                          </h4>
+                          <ul className="space-y-2">
+                            {servicesMenu.specialized.map((item) => (
+                              <li key={item.name}>
+                                <Link
+                                  to={item.href}
+                                  className="text-muted-foreground hover:text-primary transition-colors text-sm block py-1"
+                                  onClick={() => setIsMegaMenuOpen(false)}
+                                >
+                                  {item.name}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      {/* CTA in Mega Menu */}
+                      <div className="mt-6 pt-4 border-t border-border flex items-center justify-between">
+                        <p className="text-sm text-muted-foreground">
+                          Not sure what you need?
+                        </p>
+                        <Link to="/contact-us" onClick={() => setIsMegaMenuOpen(false)}>
+                          <Button size="sm">Get Free Consultation</Button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
 
@@ -114,7 +233,7 @@ const Navbar = () => {
         {/* Mobile Navigation */}
         <div 
           className={`lg:hidden overflow-hidden transition-all duration-500 ${
-            isOpen ? 'max-h-[500px] opacity-100 mt-6' : 'max-h-0 opacity-0'
+            isOpen ? 'max-h-[600px] opacity-100 mt-6' : 'max-h-0 opacity-0'
           }`}
         >
           <div className="bg-background/95 backdrop-blur-lg rounded-2xl p-6 border border-border shadow-xl">
