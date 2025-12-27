@@ -15,6 +15,8 @@ import Process from "@/components/Process";
 import TrustSection from "@/components/TrustSection";
 import CTASection from "@/components/CTASection";
 import { BeforeAfterShowcase } from "@/components/BeforeAfterShowcase";
+import ScrollProgress from "@/components/ScrollProgress";
+import CostCalculator from "@/components/CostCalculator";
 
 const Index = () => {
   return (
@@ -39,6 +41,7 @@ const Index = () => {
         Skip to main content
       </a>
       
+      <ScrollProgress />
       <FloatingParticles count={30} />
       <main id="main-content" className="min-h-screen relative z-10">
         <FixedSocialBar />
@@ -50,6 +53,7 @@ const Index = () => {
         <Process />
         <Portfolio />
         <BeforeAfterShowcase />
+        <CostCalculator />
         <TrustSection />
         <About />
         <Testimonials />
