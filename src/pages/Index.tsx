@@ -10,31 +10,48 @@ import Footer from "@/components/Footer";
 import FixedSocialBar from "@/components/FixedSocialBar";
 import FloatingParticles from "@/components/FloatingParticles";
 import SectionNavDots from "@/components/SectionNavDots";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import Process from "@/components/Process";
+import TrustSection from "@/components/TrustSection";
+import CTASection from "@/components/CTASection";
 
 const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Crossangle Interior | Premium Interior Design Studio</title>
+        <title>Crossangle Interior | Premium Interior Design Studio in Jamshedpur & Kolkata</title>
         <meta
           name="description"
-          content="Transform your vision into exquisite living spaces with Crossangle Interior.Innovative and personalized interior design solutions for homes and commercial spaces."
+          content="Transform your vision into exquisite living spaces with Crossangle Interior. Award-winning interior design for homes and commercial spaces in Jamshedpur and Kolkata. 500+ projects completed."
         />
         <meta
           name="keywords"
-          content="interior design, residential design, commercial design, luxury interiors, home design, space planning"
+          content="interior design, residential design, commercial design, luxury interiors, home design, space planning, Jamshedpur, Kolkata, modular kitchen, false ceiling"
         />
       </Helmet>
+      
+      {/* Skip to main content link for accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-lg"
+      >
+        Skip to main content
+      </a>
+      
       <FloatingParticles count={30} />
-      <main className="min-h-screen relative z-10">
+      <main id="main-content" className="min-h-screen relative z-10">
         <FixedSocialBar />
         <SectionNavDots />
+        <WhatsAppButton />
         <Navbar />
         <Hero />
         <Services />
+        <Process />
         <Portfolio />
+        <TrustSection />
         <About />
         <Testimonials />
+        <CTASection />
         <Contact />
         <Footer />
       </main>

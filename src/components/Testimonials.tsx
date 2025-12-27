@@ -6,6 +6,7 @@ interface Testimonial {
   id: number;
   name: string;
   role: string;
+  project?: string;
   review: string;
   rating: number;
   image?: string;
@@ -16,6 +17,7 @@ const testimonials: Testimonial[] = [
     id: 1,
     name: "Priya Sharma",
     role: "Homeowner",
+    project: "3BHK Apartment, Jamshedpur",
     review: "Crossangle Interior transformed our home beyond our expectations. Their attention to detail and creative vision made our space truly luxurious.",
     rating: 5,
   },
@@ -23,6 +25,7 @@ const testimonials: Testimonial[] = [
     id: 2,
     name: "Rajesh Kumar",
     role: "Business Owner",
+    project: "Corporate Office, Kolkata",
     review: "The team delivered an exceptional office design that perfectly reflects our brand identity. Professional, timely, and incredibly talented.",
     rating: 5,
   },
@@ -30,6 +33,7 @@ const testimonials: Testimonial[] = [
     id: 3,
     name: "Anita Desai",
     role: "Apartment Owner",
+    project: "2BHK Renovation, Jamshedpur",
     review: "From concept to completion, the entire experience was seamless. They understood our vision and executed it flawlessly.",
     rating: 5,
   },
@@ -37,6 +41,7 @@ const testimonials: Testimonial[] = [
     id: 4,
     name: "Vikram Singh",
     role: "Restaurant Owner",
+    project: "Cafe Interior, Kolkata",
     review: "Our restaurant's new interior has received countless compliments. Crossangle truly understands commercial spaces.",
     rating: 4,
   },
@@ -58,7 +63,7 @@ const AnimatedStars = ({ rating, isVisible }: { rating: number; isVisible: boole
   }, [isVisible, rating]);
 
   return (
-    <div className="flex gap-1">
+    <div className="flex gap-1" role="img" aria-label={`${rating} out of 5 stars`}>
       {[1, 2, 3, 4, 5].map((star) => (
         <Star
           key={star}
@@ -81,6 +86,7 @@ const AnimatedStars = ({ rating, isVisible }: { rating: number; isVisible: boole
 const Testimonials = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -101,11 +107,13 @@ const Testimonials = () => {
   }, []);
 
   useEffect(() => {
+    if (isPaused) return;
+    
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % testimonials.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isPaused]);
 
   return (
     <section
@@ -122,7 +130,7 @@ const Testimonials = () => {
           <span className="text-primary text-sm uppercase tracking-[0.3em] font-medium">
             Client Reviews
           </span>
-          <h2 className="text-3xl md:text-5xl font-bold text-background mt-4">
+          <h2 className="text-3xl md:text-5xl font-serif font-bold text-background mt-4">
             What Our Clients Say
           </h2>
           <p className="text-background/60 mt-4 max-w-2xl mx-auto">
@@ -131,7 +139,11 @@ const Testimonials = () => {
         </div>
 
         {/* Featured Testimonial */}
-        <div className="max-w-4xl mx-auto mb-12">
+        <div 
+          className="max-w-4xl mx-auto mb-12"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
           <div
             className={cn(
               "relative p-8 md:p-12 rounded-3xl backdrop-blur-lg",
@@ -165,6 +177,11 @@ const Testimonials = () => {
                   <p className="text-background/60 text-sm">
                     {testimonials[activeIndex].role}
                   </p>
+                  {testimonials[activeIndex].project && (
+                    <p className="text-primary text-xs mt-0.5">
+                      {testimonials[activeIndex].project}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -172,7 +189,7 @@ const Testimonials = () => {
         </div>
 
         {/* Navigation Dots */}
-        <div className="flex justify-center gap-3">
+        <div className="flex justify-center gap-3 mb-8">
           {testimonials.map((_, index) => (
             <button
               key={index}
@@ -184,12 +201,45 @@ const Testimonials = () => {
                   : "bg-background/30 hover:bg-background/50"
               )}
               aria-label={`View testimonial ${index + 1}`}
+              aria-current={activeIndex === index ? "true" : "false"}
             />
           ))}
         </div>
 
+        {/* Google Reviews Badge */}
+        <div
+          className={cn(
+            "flex justify-center mb-12 transition-all duration-700",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          )}
+          style={{ transitionDelay: "300ms" }}
+        >
+          <a
+            href="https://g.page/crossangle-interior/review"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-background/10 border border-background/20 hover:bg-background/15 transition-colors"
+          >
+            <div className="flex items-center gap-1">
+              <span className="text-2xl font-bold text-background">G</span>
+            </div>
+            <div className="text-left">
+              <div className="flex items-center gap-1">
+                <span className="text-primary font-bold">4.8</span>
+                <span className="text-background/60">/5.0</span>
+                <div className="flex gap-0.5 ml-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star key={star} className="w-3 h-3 text-primary fill-primary" />
+                  ))}
+                </div>
+              </div>
+              <p className="text-xs text-background/50">Based on 50+ Google reviews</p>
+            </div>
+          </a>
+        </div>
+
         {/* All Reviews Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {testimonials.map((testimonial, index) => (
             <div
               key={testimonial.id}
@@ -202,6 +252,10 @@ const Testimonials = () => {
               )}
               style={{ transitionDelay: `${index * 150}ms` }}
               onClick={() => setActiveIndex(index)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === "Enter" && setActiveIndex(index)}
+              aria-label={`View testimonial from ${testimonial.name}`}
             >
               <AnimatedStars rating={testimonial.rating} isVisible={isVisible} />
 
