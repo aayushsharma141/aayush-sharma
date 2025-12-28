@@ -84,10 +84,18 @@ const Navbar = () => {
               </span>
               {" "}
               <span className={cn(
-                "transition-colors duration-300 font-semibold",
+                "transition-colors duration-300 font-semibold inline-flex",
                 showTransparent ? 'text-primary-foreground' : 'text-foreground'
               )}>
-                Interior
+                {"Interior".split('').map((letter, i) => (
+                  <span
+                    key={i}
+                    className="inline-block opacity-0 animate-[flip-in_600ms_ease-out_forwards]"
+                    style={{ animationDelay: `${i * 80}ms` }}
+                  >
+                    {letter}
+                  </span>
+                ))}
               </span>
             </div>
           </Link>
