@@ -6,56 +6,49 @@ import FloatingParticles from "./FloatingParticles";
 import VideoModal from "./VideoModal";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
 const Hero = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({
+    x: 0,
+    y: 0
+  });
   const [isVideoOpen, setIsVideoOpen] = useState(false);
-
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handleScroll);
     setTimeout(() => setIsVisible(true), 100);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 20;
       const y = (e.clientY / window.innerHeight - 0.5) * 20;
-      setMousePosition({ x, y });
+      setMousePosition({
+        x,
+        y
+      });
     };
-
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
-
   const parallaxBg = scrollY * 0.5;
   const parallaxContent = scrollY * 0.2;
   const opacity = Math.max(0, 1 - scrollY / 600);
-
   const handleScrollToServices = () => {
-    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('services')?.scrollIntoView({
+      behavior: 'smooth'
+    });
   };
-
-  return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
+  return <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
       {/* Water Ripple Mouse Effect */}
       <WaterRippleEffect />
 
       {/* Background Image with Parallax Effect + Mouse Tracking */}
-      <div 
-        className="absolute inset-0 z-0 transition-transform duration-300 ease-out"
-        style={{ 
-          transform: `translateY(${parallaxBg}px) translate(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px)` 
-        }}
-      >
-        <img
-          src={heroImage}
-          alt="Luxurious modern living room interior design"
-          className="w-full h-full object-cover scale-110"
-        />
+      <div className="absolute inset-0 z-0 transition-transform duration-300 ease-out" style={{
+      transform: `translateY(${parallaxBg}px) translate(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px)`
+    }}>
+        <img src={heroImage} alt="Luxurious modern living room interior design" className="w-full h-full object-cover scale-110" />
         <div className="absolute inset-0 bg-gradient-to-r from-foreground/95 via-foreground/70 to-foreground/30" />
         <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-foreground/20" />
       </div>
@@ -64,14 +57,11 @@ const Hero = () => {
       <FloatingParticles count={12} className="z-[1]" />
 
       {/* Content with Parallax + Mouse Tracking */}
-      <div 
-        className="container mx-auto px-4 relative z-10 pt-20 transition-transform duration-300 ease-out"
-        style={{ 
-          transform: `translateY(${-parallaxContent}px) translate(${-mousePosition.x * 0.2}px, ${-mousePosition.y * 0.2}px)`,
-          opacity,
-        }}
-      >
-        <div className="max-w-4xl">
+      <div className="container mx-auto px-4 relative z-10 pt-20 transition-transform duration-300 ease-out" style={{
+      transform: `translateY(${-parallaxContent}px) translate(${-mousePosition.x * 0.2}px, ${-mousePosition.y * 0.2}px)`,
+      opacity
+    }}>
+        <div className="max-w-4xl mx-[2px]">
           <div className={`transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
             <span className="inline-flex items-center gap-2 text-primary font-medium mb-6 tracking-[0.2em] uppercase text-sm border border-primary/30 px-4 py-2 rounded-full backdrop-blur-sm bg-primary/5">
               <Sparkles className="w-4 h-4" />
@@ -100,21 +90,12 @@ const Hero = () => {
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-2" />
               </Button>
             </Link>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              onClick={() => setIsVideoOpen(true)}
-              className="bg-primary-foreground/5 backdrop-blur-md border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground hover:text-foreground text-lg px-8 py-6 group transition-all duration-500 hover:-translate-y-1"
-            >
+            <Button size="lg" variant="outline" onClick={() => setIsVideoOpen(true)} className="bg-primary-foreground/5 backdrop-blur-md border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground hover:text-foreground text-lg px-8 py-6 group transition-all duration-500 hover:-translate-y-1">
               <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
               Watch Showreel
             </Button>
             <Link to="/contact-us">
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="bg-primary/10 backdrop-blur-md border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground text-lg px-8 py-6 group transition-all duration-500 hover:-translate-y-1"
-              >
+              <Button size="lg" variant="outline" className="bg-primary/10 backdrop-blur-md border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground text-lg px-8 py-6 group transition-all duration-500 hover:-translate-y-1">
                 Free Consultation
               </Button>
             </Link>
@@ -123,11 +104,9 @@ const Hero = () => {
           {/* Trust Badges */}
           <div className={`flex flex-wrap items-center gap-8 transition-all duration-1000 delay-800 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
             <div className="flex -space-x-3">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="w-12 h-12 rounded-full bg-primary/20 border-2 border-primary-foreground/20 backdrop-blur-sm flex items-center justify-center text-primary-foreground/70 text-sm font-medium hover:scale-110 hover:z-10 transition-transform cursor-pointer">
+              {[1, 2, 3, 4].map(i => <div key={i} className="w-12 h-12 rounded-full bg-primary/20 border-2 border-primary-foreground/20 backdrop-blur-sm flex items-center justify-center text-primary-foreground/70 text-sm font-medium hover:scale-110 hover:z-10 transition-transform cursor-pointer">
                   {i === 4 ? "99+" : "★"}
-                </div>
-              ))}
+                </div>)}
             </div>
             <div className="text-primary-foreground/80">
               <div className="font-semibold text-lg">500+ Happy Clients</div>
@@ -138,11 +117,9 @@ const Hero = () => {
       </div>
 
       {/* Interactive Scroll Indicator */}
-      <button 
-        onClick={handleScrollToServices}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 group cursor-pointer"
-        style={{ opacity }}
-      >
+      <button onClick={handleScrollToServices} className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 group cursor-pointer" style={{
+      opacity
+    }}>
         <div className={`flex flex-col items-center gap-2 text-primary-foreground/50 transition-all duration-1000 delay-1200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
           <span className="text-xs tracking-widest uppercase font-medium group-hover:text-primary transition-colors">Discover More</span>
           <div className="w-10 h-14 border-2 border-primary-foreground/30 rounded-full flex flex-col items-center justify-start pt-2 backdrop-blur-sm group-hover:border-primary group-hover:bg-primary/10 transition-all duration-300">
@@ -153,12 +130,7 @@ const Hero = () => {
       </button>
 
       {/* Video Modal */}
-      <VideoModal 
-        isOpen={isVideoOpen} 
-        onClose={() => setIsVideoOpen(false)} 
-      />
-    </section>
-  );
+      <VideoModal isOpen={isVideoOpen} onClose={() => setIsVideoOpen(false)} />
+    </section>;
 };
-
 export default Hero;
