@@ -125,6 +125,26 @@ export default {
 					opacity: '1',
 					transform: 'rotateX(0deg) translateY(0)'
 				}
+			},
+			'magnetic-bounce': {
+				'0%': { 
+					opacity: '0',
+					transform: 'translateX(50px) rotate(15deg)'
+				},
+				'50%': { 
+					opacity: '1',
+					transform: 'translateX(-8px) rotate(-3deg)'
+				},
+				'70%': { 
+					transform: 'translateX(4px) rotate(1.5deg)'
+				},
+				'85%': { 
+					transform: 'translateX(-2px) rotate(-0.5deg)'
+				},
+				'100%': { 
+					opacity: '1',
+					transform: 'translateX(0) rotate(0deg)'
+				}
 			}
 		},
 		animation: {
