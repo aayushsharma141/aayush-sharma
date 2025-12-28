@@ -28,7 +28,19 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+  const [isHoveringInterior, setIsHoveringInterior] = useState(false);
+  const [animationKey, setAnimationKey] = useState(0);
   const location = useLocation();
+
+  // Restart animation every 2 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isHoveringInterior) {
+        setAnimationKey(prev => prev + 1);
+      }
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [isHoveringInterior]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -83,15 +95,26 @@ const Navbar = () => {
                 Crossangle
               </span>
               {" "}
-              <span className={cn(
-                "transition-colors duration-300 font-semibold inline-flex",
-                showTransparent ? 'text-primary-foreground' : 'text-foreground'
-              )}>
+              <span 
+                className={cn(
+                  "transition-all duration-300 font-semibold inline-flex cursor-pointer",
+                  showTransparent ? 'text-primary-foreground' : 'text-foreground',
+                  isHoveringInterior && 'scale-105'
+                )}
+                onMouseEnter={() => setIsHoveringInterior(true)}
+                onMouseLeave={() => setIsHoveringInterior(false)}
+              >
                 {"Interior".split('').map((letter, i) => (
                   <span
-                    key={i}
-                    className="inline-block opacity-0 animate-[flip-in_600ms_ease-out_forwards]"
-                    style={{ animationDelay: `${i * 80}ms` }}
+                    key={`${animationKey}-${i}`}
+                    className={cn(
+                      "inline-block",
+                      !isHoveringInterior && "animate-[magnetic-bounce_600ms_ease-out_forwards]"
+                    )}
+                    style={{ 
+                      animationDelay: `${i * 80}ms`,
+                      animationPlayState: isHoveringInterior ? 'paused' : 'running'
+                    }}
                   >
                     {letter}
                   </span>
