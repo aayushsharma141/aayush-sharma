@@ -71,9 +71,9 @@ const FixedSocialBar: React.FC<{ links?: SocialLink[] }> = ({ links = defaultLin
 
   return (
     <>
-      {/* Desktop left sticky bar */}
-      <aside className="hidden md:flex fixed left-0 top-1/2 -translate-y-1/2 z-50 flex-col">
-        <ul className="flex flex-col space-y-2 p-2">
+      {/* Desktop left sticky bar - positioned slightly inward */}
+      <aside className="hidden md:flex fixed left-4 top-1/2 -translate-y-1/2 z-50 flex-col">
+        <ul className="flex flex-col space-y-3">
           {links.map((link, idx) => (
             <li key={idx}>
               <a
@@ -83,23 +83,41 @@ const FixedSocialBar: React.FC<{ links?: SocialLink[] }> = ({ links = defaultLin
                 aria-label={link.label}
                 onMouseEnter={() => setHoveredIndex(idx)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                className="group flex items-center justify-center w-11 h-11 rounded-r-lg backdrop-blur-sm shadow-md border border-border/50 hover:scale-110 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                className="group relative flex items-center justify-center w-11 h-11 rounded-full shadow-lg transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background"
                 style={{
-                  background: hoveredIndex === idx ? link.hoverBg : 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))',
-                  color: hoveredIndex === idx ? link.hoverColor : 'hsl(var(--primary-foreground))',
+                  background: hoveredIndex === idx ? link.hoverBg : 'hsl(var(--card) / 0.95)',
+                  color: hoveredIndex === idx ? link.hoverColor : 'hsl(var(--foreground))',
+                  transform: hoveredIndex === idx ? 'scale(1.15) translateX(4px)' : 'scale(1)',
+                  boxShadow: hoveredIndex === idx 
+                    ? '0 8px 25px -5px hsl(var(--primary) / 0.3)' 
+                    : '0 4px 15px -3px hsl(var(--foreground) / 0.15)',
                 }}
               >
                 <span className="sr-only">{link.label}</span>
                 {link.icon}
+                
+                {/* Tooltip label on hover */}
+                <span 
+                  className="absolute left-full ml-3 px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap pointer-events-none transition-all duration-300"
+                  style={{
+                    opacity: hoveredIndex === idx ? 1 : 0,
+                    transform: hoveredIndex === idx ? 'translateX(0)' : 'translateX(-8px)',
+                    background: 'hsl(var(--card))',
+                    color: 'hsl(var(--foreground))',
+                    boxShadow: '0 4px 12px -2px hsl(var(--foreground) / 0.1)',
+                  }}
+                >
+                  {link.label}
+                </span>
               </a>
             </li>
           ))}
         </ul>
       </aside>
 
-      {/* Mobile bottom bar */}
-      <nav className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
-        <ul className="flex items-center gap-2 rounded-full px-4 py-3 backdrop-blur-md bg-card/80 shadow-lg border border-border/50">
+      {/* Mobile bottom bar - floating pill design */}
+      <nav className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+        <ul className="flex items-center gap-3 rounded-full px-5 py-3 backdrop-blur-md bg-card/90 shadow-xl border border-border/30">
           {links.map((link, idx) => (
             <li key={idx}>
               <a
@@ -109,10 +127,13 @@ const FixedSocialBar: React.FC<{ links?: SocialLink[] }> = ({ links = defaultLin
                 aria-label={link.label}
                 onMouseEnter={() => setHoveredIndex(idx + 100)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                className="w-10 h-10 flex items-center justify-center rounded-full hover:scale-110 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                onTouchStart={() => setHoveredIndex(idx + 100)}
+                onTouchEnd={() => setTimeout(() => setHoveredIndex(null), 150)}
+                className="w-10 h-10 flex items-center justify-center rounded-full transition-all duration-300 ease-out active:scale-95"
                 style={{
-                  background: hoveredIndex === idx + 100 ? link.hoverBg : 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))',
-                  color: hoveredIndex === idx + 100 ? link.hoverColor : 'hsl(var(--primary-foreground))',
+                  background: hoveredIndex === idx + 100 ? link.hoverBg : 'hsl(var(--muted))',
+                  color: hoveredIndex === idx + 100 ? link.hoverColor : 'hsl(var(--foreground))',
+                  transform: hoveredIndex === idx + 100 ? 'scale(1.1)' : 'scale(1)',
                 }}
               >
                 <span className="sr-only">{link.label}</span>
