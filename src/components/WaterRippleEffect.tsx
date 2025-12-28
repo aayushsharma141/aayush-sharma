@@ -7,6 +7,7 @@ interface Ripple {
   opacity: number;
   id: number;
   isClick?: boolean;
+  burstIndex?: number;
   timestamp: number;
 }
 
@@ -14,63 +15,109 @@ interface WaterRippleEffectProps {
   className?: string;
 }
 
+// Haptic feedback simulation for mobile
+const triggerHapticFeedback = (intensity: 'light' | 'medium' | 'heavy' = 'light') => {
+  if ('vibrate' in navigator) {
+    const patterns = {
+      light: [10],
+      medium: [20],
+      heavy: [30, 10, 30],
+    };
+    navigator.vibrate(patterns[intensity]);
+  }
+};
+
 const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [targetMousePos, setTargetMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const rippleId = useRef(0);
   const lastRippleTime = useRef(0);
   const animationFrame = useRef<number>();
 
-  const createRipple = useCallback((x: number, y: number, isClick: boolean = false) => {
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const createRipple = useCallback((x: number, y: number, isClick: boolean = false, burstIndex: number = 0) => {
     const now = Date.now();
     // Throttle hover ripples to every 50ms for consistency
     if (!isClick && now - lastRippleTime.current < 50) return;
     lastRippleTime.current = now;
 
     rippleId.current += 1;
+    
+    // Different sizes for burst effect
+    const baseSize = isClick ? (burstIndex === 0 ? 25 : burstIndex === 1 ? 15 : 10) : 0;
+    const baseOpacity = isClick ? (burstIndex === 0 ? 0.9 : burstIndex === 1 ? 0.7 : 0.5) : 0.5;
+    
     const newRipple: Ripple = {
       x,
       y,
-      size: isClick ? 20 : 0,
-      opacity: isClick ? 0.8 : 0.5,
+      size: baseSize,
+      opacity: baseOpacity,
       id: rippleId.current,
       isClick,
+      burstIndex,
       timestamp: now,
     };
 
-    setRipples((prev) => [...prev.slice(isClick ? -20 : -12), newRipple]);
+    setRipples((prev) => [...prev.slice(isClick ? -24 : -12), newRipple]);
   }, []);
+
+  // Triple-burst click effect
+  const createTripleBurst = useCallback((x: number, y: number) => {
+    createRipple(x, y, true, 0);
+    setTimeout(() => createRipple(x, y, true, 1), 80);
+    setTimeout(() => createRipple(x, y, true, 2), 160);
+  }, [createRipple]);
 
   useEffect(() => {
     const heroSection = document.getElementById("home");
     if (!heroSection) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const getPositionInHero = (clientX: number, clientY: number) => {
       const rect = heroSection.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top,
+        isInBounds: clientX >= rect.left && clientX <= rect.right && 
+                    clientY >= rect.top && clientY <= rect.bottom,
+      };
+    };
+
+    // Desktop mouse handlers
+    const handleMouseMove = (e: MouseEvent) => {
+      const { x, y, isInBounds } = getPositionInHero(e.clientX, e.clientY);
       
-      // Only create ripples if within bounds
-      if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
-        setMousePos({ x, y });
+      if (isInBounds) {
+        setTargetMousePos({ x, y });
         setIsHovering(true);
         createRipple(x, y, false);
+      } else {
+        setIsHovering(false);
       }
     };
 
     const handleClick = (e: MouseEvent) => {
-      const rect = heroSection.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      // Only create click ripples if within bounds
-      if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
-        // Create multiple ripples for a more dramatic click effect
-        createRipple(x, y, true);
-        setTimeout(() => createRipple(x, y, true), 100);
-        setTimeout(() => createRipple(x, y, true), 200);
+      // Don't block click events on interactive elements
+      const target = e.target as HTMLElement;
+      if (target.closest('button, a, input, [role="button"]')) {
+        return;
+      }
+      
+      const { x, y, isInBounds } = getPositionInHero(e.clientX, e.clientY);
+      if (isInBounds) {
+        createTripleBurst(x, y);
       }
     };
 
@@ -78,42 +125,86 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
       setIsHovering(false);
     };
 
-    // Listen on document for consistent tracking
-    document.addEventListener("mousemove", handleMouseMove);
+    // Mobile touch handlers
+    const handleTouchStart = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      const { x, y, isInBounds } = getPositionInHero(touch.clientX, touch.clientY);
+      
+      if (isInBounds) {
+        // Don't block touch on interactive elements
+        const target = e.target as HTMLElement;
+        if (!target.closest('button, a, input, [role="button"]')) {
+          triggerHapticFeedback('medium');
+          createTripleBurst(x, y);
+        }
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      const { x, y, isInBounds } = getPositionInHero(touch.clientX, touch.clientY);
+      
+      if (isInBounds) {
+        setTargetMousePos({ x, y });
+        setIsHovering(true);
+        createRipple(x, y, false);
+        triggerHapticFeedback('light');
+      }
+    };
+
+    const handleTouchEnd = () => {
+      setIsHovering(false);
+    };
+
+    // Add event listeners - passive where possible for performance
+    document.addEventListener("mousemove", handleMouseMove, { passive: true });
     document.addEventListener("click", handleClick);
     heroSection.addEventListener("mouseleave", handleMouseLeave);
+    heroSection.addEventListener("touchstart", handleTouchStart, { passive: true });
+    heroSection.addEventListener("touchmove", handleTouchMove, { passive: true });
+    heroSection.addEventListener("touchend", handleTouchEnd);
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("click", handleClick);
       heroSection.removeEventListener("mouseleave", handleMouseLeave);
+      heroSection.removeEventListener("touchstart", handleTouchStart);
+      heroSection.removeEventListener("touchmove", handleTouchMove);
+      heroSection.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [createRipple]);
+  }, [createRipple, createTripleBurst]);
 
-  // Smooth animation using requestAnimationFrame
+  // Smooth animation using requestAnimationFrame with interpolation
   useEffect(() => {
-    let lastTime = performance.now();
+    const animate = () => {
+      // Smooth mouse position interpolation (lag-free tracking)
+      setMousePos((prev) => ({
+        x: prev.x + (targetMousePos.x - prev.x) * 0.25,
+        y: prev.y + (targetMousePos.y - prev.y) * 0.25,
+      }));
 
-    const animate = (currentTime: number) => {
-      const deltaTime = currentTime - lastTime;
-      
-      if (deltaTime >= 16) { // ~60fps
-        lastTime = currentTime;
-        
-        setRipples((prev) =>
-          prev
-            .map((ripple) => {
-              const growthRate = ripple.isClick ? 12 : 6;
-              const fadeRate = ripple.isClick ? 0.012 : 0.018;
-              return {
-                ...ripple,
-                size: ripple.size + growthRate,
-                opacity: ripple.opacity - fadeRate,
-              };
-            })
-            .filter((ripple) => ripple.opacity > 0)
-        );
-      }
+      // Animate ripples
+      setRipples((prev) =>
+        prev
+          .map((ripple) => {
+            const age = Date.now() - ripple.timestamp;
+            const isEarlyBurst = ripple.isClick && ripple.burstIndex !== undefined;
+            
+            // Different growth rates for burst layers
+            let growthRate = ripple.isClick ? 14 : 6;
+            if (isEarlyBurst && ripple.burstIndex === 1) growthRate = 10;
+            if (isEarlyBurst && ripple.burstIndex === 2) growthRate = 8;
+            
+            const fadeRate = ripple.isClick ? 0.01 : 0.018;
+            
+            return {
+              ...ripple,
+              size: ripple.size + growthRate,
+              opacity: ripple.opacity - fadeRate,
+            };
+          })
+          .filter((ripple) => ripple.opacity > 0)
+      );
 
       animationFrame.current = requestAnimationFrame(animate);
     };
@@ -125,7 +216,7 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
         cancelAnimationFrame(animationFrame.current);
       }
     };
-  }, []);
+  }, [targetMousePos]);
 
   return (
     <div 
@@ -133,62 +224,98 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
       className={`absolute inset-0 z-[2] overflow-hidden pointer-events-none ${className}`}
     >
       {/* Ripples */}
-      {ripples.map((ripple) => (
+      {ripples.map((ripple) => {
+        const isBurst = ripple.isClick && ripple.burstIndex !== undefined;
+        const burstColor = isBurst 
+          ? ripple.burstIndex === 0 
+            ? 0.8 
+            : ripple.burstIndex === 1 
+              ? 0.6 
+              : 0.4
+          : 0.4;
+        
+        return (
+          <div
+            key={ripple.id}
+            className="absolute rounded-full pointer-events-none"
+            style={{
+              left: ripple.x - ripple.size / 2,
+              top: ripple.y - ripple.size / 2,
+              width: ripple.size,
+              height: ripple.size,
+              opacity: ripple.opacity,
+              border: ripple.isClick 
+                ? `${2 - (ripple.burstIndex || 0) * 0.5}px solid hsl(var(--primary) / ${burstColor})` 
+                : "1px solid hsl(var(--primary) / 0.4)",
+              boxShadow: ripple.isClick
+                ? `0 0 ${ripple.size / 2}px hsl(var(--primary) / ${burstColor * 0.6}), 
+                   inset 0 0 ${ripple.size / 3}px hsl(var(--primary) / ${burstColor * 0.3}),
+                   0 0 ${ripple.size}px hsl(var(--primary) / ${burstColor * 0.2})`
+                : `0 0 ${ripple.size / 3}px hsl(var(--primary) / 0.25), 
+                   inset 0 0 ${ripple.size / 5}px hsl(var(--primary) / 0.1)`,
+              background: ripple.isClick 
+                ? `radial-gradient(circle, hsl(var(--primary) / ${burstColor * 0.15}) 0%, transparent 60%)`
+                : 'transparent',
+              transform: 'translateZ(0)',
+              willChange: 'width, height, opacity',
+            }}
+          />
+        );
+      })}
+
+      {/* Mouse/Touch Glow - Smooth interpolated follow */}
+      {!isMobile && (
+        <>
+          <div
+            className="absolute pointer-events-none rounded-full"
+            style={{
+              left: mousePos.x - 120,
+              top: mousePos.y - 120,
+              width: 240,
+              height: 240,
+              background: `radial-gradient(circle, hsl(var(--primary) / 0.12) 0%, hsl(var(--primary) / 0.05) 40%, transparent 70%)`,
+              opacity: isHovering ? 1 : 0,
+              transform: 'translateZ(0)',
+              transition: 'opacity 0.2s ease-out',
+              willChange: 'transform, opacity',
+            }}
+          />
+
+          {/* Cursor Core Glow */}
+          <div
+            className="absolute pointer-events-none rounded-full"
+            style={{
+              left: mousePos.x - 20,
+              top: mousePos.y - 20,
+              width: 40,
+              height: 40,
+              background: `radial-gradient(circle, hsl(var(--primary) / 0.4) 0%, hsl(var(--primary) / 0.15) 50%, transparent 70%)`,
+              boxShadow: "0 0 30px hsl(var(--primary) / 0.4), 0 0 60px hsl(var(--primary) / 0.2)",
+              opacity: isHovering ? 1 : 0,
+              transform: 'translateZ(0)',
+              transition: 'opacity 0.15s ease-out',
+              willChange: 'transform, opacity',
+            }}
+          />
+        </>
+      )}
+
+      {/* Mobile Touch Indicator */}
+      {isMobile && isHovering && (
         <div
-          key={ripple.id}
-          className="absolute rounded-full pointer-events-none"
+          className="absolute pointer-events-none rounded-full"
           style={{
-            left: ripple.x - ripple.size / 2,
-            top: ripple.y - ripple.size / 2,
-            width: ripple.size,
-            height: ripple.size,
-            opacity: ripple.opacity,
-            border: ripple.isClick 
-              ? "2px solid hsl(var(--primary) / 0.7)" 
-              : "1px solid hsl(var(--primary) / 0.4)",
-            boxShadow: ripple.isClick
-              ? `0 0 ${ripple.size / 2}px hsl(var(--primary) / 0.5), 
-                 inset 0 0 ${ripple.size / 3}px hsl(var(--primary) / 0.2),
-                 0 0 ${ripple.size}px hsl(var(--primary) / 0.15)`
-              : `0 0 ${ripple.size / 3}px hsl(var(--primary) / 0.25), 
-                 inset 0 0 ${ripple.size / 5}px hsl(var(--primary) / 0.1)`,
-            background: ripple.isClick 
-              ? `radial-gradient(circle, hsl(var(--primary) / 0.1) 0%, transparent 60%)`
-              : 'transparent',
+            left: targetMousePos.x - 30,
+            top: targetMousePos.y - 30,
+            width: 60,
+            height: 60,
+            background: `radial-gradient(circle, hsl(var(--primary) / 0.3) 0%, transparent 70%)`,
+            boxShadow: "0 0 40px hsl(var(--primary) / 0.3)",
+            transform: 'translateZ(0)',
             willChange: 'transform, opacity',
           }}
         />
-      ))}
-
-      {/* Mouse Glow - Smooth follow */}
-      <div
-        className="absolute pointer-events-none transition-all duration-150 ease-out"
-        style={{
-          left: mousePos.x - 120,
-          top: mousePos.y - 120,
-          width: 240,
-          height: 240,
-          background: `radial-gradient(circle, hsl(var(--primary) / 0.12) 0%, hsl(var(--primary) / 0.05) 40%, transparent 70%)`,
-          opacity: isHovering ? 1 : 0,
-          willChange: 'transform, opacity',
-        }}
-      />
-
-      {/* Cursor Core Glow */}
-      <div
-        className="absolute pointer-events-none transition-all duration-100 ease-out"
-        style={{
-          left: mousePos.x - 20,
-          top: mousePos.y - 20,
-          width: 40,
-          height: 40,
-          borderRadius: '50%',
-          background: `radial-gradient(circle, hsl(var(--primary) / 0.4) 0%, hsl(var(--primary) / 0.15) 50%, transparent 70%)`,
-          boxShadow: "0 0 30px hsl(var(--primary) / 0.4), 0 0 60px hsl(var(--primary) / 0.2)",
-          opacity: isHovering ? 1 : 0,
-          willChange: 'transform, opacity',
-        }}
-      />
+      )}
     </div>
   );
 };
