@@ -117,11 +117,13 @@ export default {
 				'100%': { backgroundPosition: '200% center' }
 			},
 			'flip-in': {
-				'0%, 100%': { 
-					transform: 'rotateX(0deg)'
+				'0%': { 
+					opacity: '0',
+					transform: 'rotateX(-90deg) translateY(-10px)'
 				},
-				'50%': { 
-					transform: 'rotateX(360deg)'
+				'100%': { 
+					opacity: '1',
+					transform: 'rotateX(0deg) translateY(0)'
 				}
 			}
 		},

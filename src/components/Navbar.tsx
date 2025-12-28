@@ -90,11 +90,8 @@ const Navbar = () => {
                 {"Interior".split('').map((letter, i) => (
                   <span
                     key={i}
-                    className="inline-block animate-[flip-in_3s_ease-in-out_infinite]"
-                    style={{ 
-                      animationDelay: `${i * 150}ms`,
-                      transformStyle: 'preserve-3d'
-                    }}
+                    className="inline-block opacity-0 animate-[flip-in_600ms_ease-out_forwards]"
+                    style={{ animationDelay: `${i * 80}ms` }}
                   >
                     {letter}
                   </span>
