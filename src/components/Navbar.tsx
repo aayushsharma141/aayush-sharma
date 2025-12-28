@@ -90,8 +90,8 @@ const Navbar = () => {
                 {"Interior".split('').map((letter, i) => (
                   <span
                     key={i}
-                    className="inline-block opacity-0 animate-[flip-in_600ms_ease-out_forwards]"
-                    style={{ animationDelay: `${i * 80}ms` }}
+                    className="inline-block animate-magnetic-bounce"
+                    style={{ animationDelay: `${i * 90}ms` }}
                   >
                     {letter}
                   </span>
