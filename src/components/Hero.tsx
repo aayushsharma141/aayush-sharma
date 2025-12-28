@@ -61,7 +61,7 @@ const Hero = () => {
       transform: `translateY(${-parallaxContent}px) translate(${-mousePosition.x * 0.2}px, ${-mousePosition.y * 0.2}px)`,
       opacity
     }}>
-        <div className="max-w-4xl mx-[2px]">
+        <div className="max-w-4xl mx-[20px] px-[30px]">
           <div className={`transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
             <span className="inline-flex items-center gap-2 text-primary font-medium mb-6 tracking-[0.2em] uppercase text-sm border border-primary/30 px-4 py-2 rounded-full backdrop-blur-sm bg-primary/5">
               <Sparkles className="w-4 h-4" />
