@@ -125,28 +125,6 @@ export default {
 					opacity: '1',
 					transform: 'rotateX(0deg) translateY(0)'
 				}
-			},
-			'magnetic-bounce': {
-				'0%': { 
-					opacity: '0.3',
-					transform: 'translateY(-20px) scale(0.8)'
-				},
-				'25%': { 
-					opacity: '0.7',
-					transform: 'translateY(10px) scale(1.1)'
-				},
-				'50%': { 
-					opacity: '1',
-					transform: 'translateY(-5px) scale(1)'
-				},
-				'75%': { 
-					opacity: '1',
-					transform: 'translateY(3px) scale(1.02)'
-				},
-				'100%': { 
-					opacity: '1',
-					transform: 'translateY(0) scale(1)'
-				}
 			}
 		},
 		animation: {
@@ -158,8 +136,7 @@ export default {
 			'logo-spin': 'logo-spin 12s linear infinite',
 			'logo-pulse-glow': 'logo-pulse-glow 2.5s ease-in-out infinite',
 			'logo-breathe': 'logo-breathe 3s ease-in-out infinite',
-			'text-shimmer': 'text-shimmer 4s ease-in-out infinite',
-			'magnetic-bounce': 'magnetic-bounce 2s ease-in-out infinite'
+			'text-shimmer': 'text-shimmer 4s ease-in-out infinite'
 		},
   		boxShadow: {
   			'2xs': 'var(--shadow-2xs)',
