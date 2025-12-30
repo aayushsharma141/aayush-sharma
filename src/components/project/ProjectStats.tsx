@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { MapPin, Ruler, Clock, Palette, Calendar, Banknote } from "lucide-react";
-import { useEffect, useState } from "react";
 
 interface ProjectStatsProps {
   location: string;
@@ -27,7 +26,7 @@ const ProjectStats = ({ location, area, duration, style, year, budget }: Project
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6"
+      className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 lg:gap-6"
     >
       {stats.map((stat, index) => (
         <motion.div
@@ -37,15 +36,15 @@ const ProjectStats = ({ location, area, duration, style, year, budget }: Project
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: index * 0.1 }}
           whileHover={{ y: -5, scale: 1.02 }}
-          className="group p-5 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
+          className="group p-4 md:p-5 rounded-xl md:rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 min-w-0"
         >
-          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
-            <stat.icon className="w-5 h-5 text-primary group-hover:text-primary-foreground transition-colors" />
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-primary/10 flex items-center justify-center mb-2 md:mb-3 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
+            <stat.icon className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:text-primary-foreground transition-colors" />
           </div>
-          <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
+          <p className="text-[10px] md:text-xs uppercase tracking-wider text-muted-foreground mb-1">
             {stat.label}
           </p>
-          <p className="font-semibold text-foreground text-sm md:text-base truncate">
+          <p className="font-semibold text-foreground text-xs md:text-sm lg:text-base truncate">
             {stat.value}
           </p>
         </motion.div>
