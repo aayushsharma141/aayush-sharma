@@ -278,13 +278,13 @@ const Navbar = () => {
                           {/* CTA in Mega Menu */}
                           <div className="mt-8 pt-6 border-t border-border flex items-center justify-between relative z-10">
                             <p className="text-sm text-muted-foreground">
-                              Not sure what you need? Let's discuss your vision.
+                              Not sure what you need? Get an instant estimate.
                             </p>
-                            <Link to="/contact-us" onClick={() => setIsMegaMenuOpen(false)}>
+                            <a href="/#calculator" onClick={() => setIsMegaMenuOpen(false)}>
                               <Button size="sm" className="shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all">
-                                Book Free Consultation
+                                Cost Estimator
                               </Button>
-                            </Link>
+                            </a>
                           </div>
                         </div>
                       </motion.div>
