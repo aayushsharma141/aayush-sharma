@@ -79,6 +79,7 @@ const DesktopProcess = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -113,7 +114,8 @@ const DesktopProcess = () => {
     <section
       id="process"
       ref={sectionRef}
-      className="min-h-screen relative overflow-hidden bg-muted/30"
+      className="min-h-screen relative overflow-hidden"
+      style={{ background: 'var(--gradient-brand-subtle)' }}
     >
       {/* Progress Bar */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-border z-20">
@@ -123,7 +125,7 @@ const DesktopProcess = () => {
         />
       </div>
 
-      <div className="container mx-auto px-4 py-24 relative z-10">
+      <div ref={containerRef} className="container mx-auto px-4 py-24 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16">
           <span className="text-primary text-sm uppercase tracking-[0.3em] font-medium">
@@ -199,7 +201,7 @@ const DesktopProcess = () => {
         {/* Rich Detail Card */}
         <div 
           key={activeStep}
-          className="max-w-3xl mx-auto p-8 rounded-2xl bg-background border border-primary/20 shadow-xl animate-fade-in"
+          className="max-w-3xl mx-auto p-8 rounded-2xl bg-background border border-primary/20 shadow-xl animate-fade-in-up"
         >
           {/* Step Header */}
           <div className="flex items-center gap-4 mb-6">
@@ -225,7 +227,8 @@ const DesktopProcess = () => {
             {currentStep.details.map((detail, i) => (
               <li 
                 key={i}
-                className="flex items-start gap-3 p-3 rounded-lg bg-muted/50"
+                className="flex items-start gap-3 p-3 rounded-lg bg-muted/50 animate-fade-in"
+                style={{ animationDelay: `${i * 100}ms` }}
               >
                 <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                 <span className="text-foreground">{detail}</span>
@@ -247,7 +250,7 @@ const DesktopProcess = () => {
   );
 };
 
-// Mobile component with natural scroll and improved animations
+// Mobile component with natural scroll
 const MobileProcess = () => {
   const [visibleSteps, setVisibleSteps] = useState<Set<number>>(new Set());
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -264,7 +267,7 @@ const MobileProcess = () => {
             setVisibleSteps(prev => new Set([...prev, index]));
           }
         },
-        { threshold: 0.2, rootMargin: "0px 0px -50px 0px" }
+        { threshold: 0.3 }
       );
 
       observer.observe(ref);
@@ -277,24 +280,25 @@ const MobileProcess = () => {
   return (
     <section
       id="process"
-      className="py-16 md:py-20 relative overflow-hidden bg-muted/30"
+      className="py-16 relative overflow-hidden"
+      style={{ background: 'var(--gradient-brand-subtle)' }}
     >
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-10 md:mb-12">
+        <div className="text-center mb-12">
           <span className="text-primary text-sm uppercase tracking-[0.3em] font-medium">
             How We Work
           </span>
           <h2 className="text-2xl md:text-4xl font-serif font-bold text-foreground mt-4">
             Our Design Process
           </h2>
-          <p className="text-muted-foreground mt-4 max-w-xl mx-auto text-sm md:text-base">
+          <p className="text-muted-foreground mt-4 max-w-xl mx-auto text-sm">
             From concept to completion, we guide you through every step
           </p>
         </div>
 
         {/* Mobile Timeline */}
-        <div className="space-y-4 md:space-y-6">
+        <div className="space-y-6">
           {steps.map((step, index) => {
             const Icon = step.icon;
             const isVisible = visibleSteps.has(index);
@@ -304,37 +308,25 @@ const MobileProcess = () => {
                 key={index}
                 ref={el => stepRefs.current[index] = el}
                 className={cn(
-                  "flex gap-4 transition-all duration-700 ease-out",
-                  isVisible 
-                    ? "opacity-100 translate-y-0" 
-                    : "opacity-0 translate-y-8"
+                  "flex gap-4 transition-all duration-700",
+                  isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
                 )}
-                style={{ transitionDelay: `${index * 50}ms` }}
               >
                 {/* Icon & Line */}
                 <div className="flex flex-col items-center">
-                  <div className={cn(
-                    "w-11 h-11 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg shrink-0 transition-all duration-500",
-                    isVisible ? "bg-primary text-primary-foreground scale-100" : "bg-muted text-muted-foreground scale-90"
-                  )}>
+                  <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg shrink-0">
                     <Icon className="w-5 h-5" />
                   </div>
                   {index < steps.length - 1 && (
-                    <div className={cn(
-                      "w-0.5 flex-1 my-2 min-h-[40px] transition-all duration-700",
-                      isVisible ? "bg-primary/40" : "bg-border"
-                    )} />
+                    <div className="w-0.5 flex-1 bg-primary/30 my-2 min-h-[40px]" />
                   )}
                 </div>
 
                 {/* Content Card */}
-                <div className="flex-1 pb-2">
-                  <div className={cn(
-                    "p-4 md:p-5 rounded-xl bg-background border shadow-md transition-all duration-500",
-                    isVisible ? "border-primary/30 shadow-primary/5" : "border-border"
-                  )}>
+                <div className="flex-1 pb-4">
+                  <div className="p-4 rounded-xl bg-background border border-primary/20 shadow-md">
                     <div className="flex items-center gap-2 mb-2">
-                      <h4 className="font-semibold text-foreground text-base md:text-lg">{step.title}</h4>
+                      <h4 className="font-semibold text-foreground">{step.title}</h4>
                       <span className="px-2 py-0.5 rounded-full text-xs bg-primary/10 text-primary font-medium border border-primary/20">
                         {step.duration}
                       </span>
@@ -344,14 +336,7 @@ const MobileProcess = () => {
                     {/* Details */}
                     <ul className="space-y-2">
                       {step.details.map((detail, i) => (
-                        <li 
-                          key={i} 
-                          className={cn(
-                            "flex items-start gap-2 text-sm transition-all duration-500",
-                            isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
-                          )}
-                          style={{ transitionDelay: `${(index * 100) + (i * 75)}ms` }}
-                        >
+                        <li key={i} className="flex items-start gap-2 text-sm">
                           <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                           <span className="text-foreground">{detail}</span>
                         </li>
