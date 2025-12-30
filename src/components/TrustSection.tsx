@@ -1,112 +1,175 @@
 import { useState, useEffect, useRef } from "react";
 import { Award, Users, ShieldCheck, Wrench, Package, HeadphonesIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-const trustItems = [{
-  icon: Award,
-  title: "Award-Winning Designs",
-  description: "Recognized for excellence in interior design across Jharkhand"
-}, {
-  icon: Users,
-  title: "Expert Team",
-  description: "15+ certified designers and skilled craftsmen"
-}, {
-  icon: ShieldCheck,
-  title: "Quality Guarantee",
-  description: "100% client satisfaction with money-back guarantee"
-}, {
-  icon: Wrench,
-  title: "Premium Tools & Materials",
-  description: "Partnered with top brands for superior quality"
-}, {
-  icon: Package,
-  title: "Authentic Materials",
-  description: "Direct sourcing from verified manufacturers"
-}, {
-  icon: HeadphonesIcon,
-  title: "Post-Project Support",
-  description: "1 year free maintenance and support"
-}];
-const brandPartners = [{
-  name: "Asian Paints",
-  logo: "🎨"
-}, {
-  name: "Hafele",
-  logo: "🔧"
-}, {
-  name: "Godrej",
-  logo: "🏠"
-}, {
-  name: "Philips",
-  logo: "💡"
-}];
+
+const trustItems = [
+  {
+    icon: Award,
+    title: "Award-Winning Designs",
+    description: "Recognized for excellence in interior design across Jharkhand"
+  },
+  {
+    icon: Users,
+    title: "Expert Team",
+    description: "15+ certified designers and skilled craftsmen"
+  },
+  {
+    icon: ShieldCheck,
+    title: "Quality Guarantee",
+    description: "100% client satisfaction with money-back guarantee"
+  },
+  {
+    icon: Wrench,
+    title: "Premium Tools & Materials",
+    description: "Partnered with top brands for superior quality"
+  },
+  {
+    icon: Package,
+    title: "Authentic Materials",
+    description: "Direct sourcing from verified manufacturers"
+  },
+  {
+    icon: HeadphonesIcon,
+    title: "Post-Project Support",
+    description: "1 year free maintenance and support"
+  }
+];
+
+const brandPartners = [
+  { name: "Asian Paints", tagline: "Color Partner" },
+  { name: "Hafele", tagline: "Hardware Expert" },
+  { name: "Godrej", tagline: "Security Partner" },
+  { name: "Philips", tagline: "Lighting Partner" },
+  { name: "Hettich", tagline: "Fittings Partner" },
+  { name: "Jaquar", tagline: "Bath Solutions" },
+];
+
 const TrustSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIsVisible(true);
-      }
-    }, {
-      threshold: 0.2
-    });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
     return () => observer.disconnect();
   }, []);
-  return <section id="trust" ref={sectionRef} className="py-24 md:py-32 relative overflow-hidden">
-      {/* Background with brand gradient */}
-      <div className="absolute inset-0 z-0 opacity-30" style={{
-      background: 'var(--gradient-brand-subtle)'
-    }} />
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background z-0" />
+
+  return (
+    <section id="trust" ref={sectionRef} className="py-20 md:py-32 relative overflow-hidden">
+      {/* Blurred Background */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-foreground via-foreground/95 to-foreground" />
+        <div className="absolute inset-0 backdrop-blur-3xl" />
+      </div>
+
+      {/* Subtle gradient overlays */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,hsl(var(--primary)/0.08),transparent_50%)] z-0" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,hsl(var(--secondary)/0.06),transparent_50%)] z-0" />
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 md:mb-16">
           <span className="text-primary text-sm uppercase tracking-[0.3em] font-medium">
             Why Choose Us
           </span>
-          <h2 className="text-3xl md:text-5xl font-serif font-bold text-foreground mt-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-primary-foreground mt-4">
             Trust & Credibility
           </h2>
-          <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+          <p className="text-primary-foreground/60 mt-4 max-w-2xl mx-auto">
             We're committed to delivering excellence in every project
           </p>
         </div>
 
         {/* Trust Items Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-16">
           {trustItems.map((item, index) => {
-          const Icon = item.icon;
-          return <div key={index} className={cn("p-6 rounded-2xl bg-background border border-border", "hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10", "transition-all duration-500 group", isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4")} style={{
-            transitionDelay: `${index * 100}ms`
-          }}>
-                <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                  <Icon className="w-6 h-6 text-primary" />
+            const Icon = item.icon;
+            return (
+              <div
+                key={index}
+                className={cn(
+                  "p-5 md:p-6 rounded-xl bg-primary-foreground/5 border border-primary-foreground/10",
+                  "hover:border-primary/30 hover:bg-primary-foreground/8",
+                  "transition-all duration-500 group",
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                )}
+                style={{ transitionDelay: `${index * 80}ms` }}
+              >
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center mb-3 md:mb-4 group-hover:bg-primary/20 transition-colors">
+                  <Icon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">{item.description}</p>
-              </div>;
-        })}
+                <h3 className="font-semibold text-primary-foreground mb-1 md:mb-2 text-sm md:text-base">{item.title}</h3>
+                <p className="text-xs md:text-sm text-primary-foreground/60">{item.description}</p>
+              </div>
+            );
+          })}
         </div>
 
-        {/* Brand Partners */}
-        <div className={cn("text-center transition-all duration-700", isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4")} style={{
-        transitionDelay: "600ms"
-      }}>
-          <p className="text-sm text-muted-foreground mb-6 uppercase tracking-wider text-center">
+        {/* Brand Partners - Slow Marquee */}
+        <div
+          className={cn(
+            "transition-all duration-700",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          )}
+          style={{ transitionDelay: "500ms" }}
+        >
+          <p className="text-sm text-primary-foreground/50 mb-6 uppercase tracking-wider text-center">
             Trusted Brand Partners
           </p>
-          <div className="flex flex-wrap justify-center gap-8">
-            {brandPartners.map((partner, index) => <div key={index} className="flex items-center gap-2 px-6 py-3 rounded-full bg-background border border-primary/20 hover:border-primary/40 hover:shadow-md hover:shadow-primary/10 transition-all">
-                <span className="text-2xl">{partner.logo}</span>
-                <span className="font-medium text-foreground">{partner.name}</span>
-              </div>)}
+          
+          {/* Marquee Container */}
+          <div className="relative overflow-hidden py-4">
+            {/* Gradient Masks */}
+            <div className="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-foreground to-transparent z-10" />
+            <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-foreground to-transparent z-10" />
+            
+            {/* Marquee Track */}
+            <div className="flex animate-marquee-slow">
+              {/* First set */}
+              {brandPartners.map((partner, index) => (
+                <div
+                  key={`first-${index}`}
+                  className="flex items-center gap-3 px-6 md:px-8 py-3 md:py-4 mx-3 md:mx-4 rounded-xl bg-primary-foreground/5 border border-primary-foreground/10 whitespace-nowrap"
+                >
+                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <span className="text-primary font-bold text-sm md:text-base">{partner.name.charAt(0)}</span>
+                  </div>
+                  <div>
+                    <span className="font-semibold text-primary-foreground text-sm md:text-base">{partner.name}</span>
+                    <span className="block text-xs text-primary-foreground/50">{partner.tagline}</span>
+                  </div>
+                </div>
+              ))}
+              {/* Duplicate set for seamless loop */}
+              {brandPartners.map((partner, index) => (
+                <div
+                  key={`second-${index}`}
+                  className="flex items-center gap-3 px-6 md:px-8 py-3 md:py-4 mx-3 md:mx-4 rounded-xl bg-primary-foreground/5 border border-primary-foreground/10 whitespace-nowrap"
+                >
+                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <span className="text-primary font-bold text-sm md:text-base">{partner.name.charAt(0)}</span>
+                  </div>
+                  <div>
+                    <span className="font-semibold text-primary-foreground text-sm md:text-base">{partner.name}</span>
+                    <span className="block text-xs text-primary-foreground/50">{partner.tagline}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default TrustSection;
