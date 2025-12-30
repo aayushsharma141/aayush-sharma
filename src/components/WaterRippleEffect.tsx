@@ -15,18 +15,6 @@ interface WaterRippleEffectProps {
   className?: string;
 }
 
-// Haptic feedback simulation for mobile
-const triggerHapticFeedback = (intensity: 'light' | 'medium' | 'heavy' = 'light') => {
-  if ('vibrate' in navigator) {
-    const patterns = {
-      light: [10],
-      medium: [20],
-      heavy: [30, 10, 30],
-    };
-    navigator.vibrate(patterns[intensity]);
-  }
-};
-
 const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [ripples, setRipples] = useState<Ripple[]>([]);
@@ -41,12 +29,17 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
   // Detect mobile device
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile('ontouchstart' in window || navigator.maxTouchPoints > 0);
+      setIsMobile('ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 768);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // On mobile, don't render any ripple effects - return early
+  if (isMobile) {
+    return null;
+  }
 
   const createRipple = useCallback((x: number, y: number, isClick: boolean = false, burstIndex: number = 0) => {
     const now = Date.now();
@@ -74,7 +67,7 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
     setRipples((prev) => [...prev.slice(isClick ? -24 : -12), newRipple]);
   }, []);
 
-  // Triple-burst click effect
+  // Triple-burst click effect for desktop
   const createTripleBurst = useCallback((x: number, y: number) => {
     createRipple(x, y, true, 0);
     setTimeout(() => createRipple(x, y, true, 1), 80);
@@ -95,7 +88,7 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
       };
     };
 
-    // Desktop mouse handlers
+    // Desktop mouse handlers only
     const handleMouseMove = (e: MouseEvent) => {
       const { x, y, isInBounds } = getPositionInHero(e.clientX, e.clientY);
       
@@ -125,52 +118,15 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
       setIsHovering(false);
     };
 
-    // Mobile touch handlers
-    const handleTouchStart = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      const { x, y, isInBounds } = getPositionInHero(touch.clientX, touch.clientY);
-      
-      if (isInBounds) {
-        // Don't block touch on interactive elements
-        const target = e.target as HTMLElement;
-        if (!target.closest('button, a, input, [role="button"]')) {
-          triggerHapticFeedback('medium');
-          createTripleBurst(x, y);
-        }
-      }
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      const { x, y, isInBounds } = getPositionInHero(touch.clientX, touch.clientY);
-      
-      if (isInBounds) {
-        setTargetMousePos({ x, y });
-        setIsHovering(true);
-        createRipple(x, y, false);
-        triggerHapticFeedback('light');
-      }
-    };
-
-    const handleTouchEnd = () => {
-      setIsHovering(false);
-    };
-
     // Add event listeners - passive where possible for performance
     document.addEventListener("mousemove", handleMouseMove, { passive: true });
     document.addEventListener("click", handleClick);
     heroSection.addEventListener("mouseleave", handleMouseLeave);
-    heroSection.addEventListener("touchstart", handleTouchStart, { passive: true });
-    heroSection.addEventListener("touchmove", handleTouchMove, { passive: true });
-    heroSection.addEventListener("touchend", handleTouchEnd);
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("click", handleClick);
       heroSection.removeEventListener("mouseleave", handleMouseLeave);
-      heroSection.removeEventListener("touchstart", handleTouchStart);
-      heroSection.removeEventListener("touchmove", handleTouchMove);
-      heroSection.removeEventListener("touchend", handleTouchEnd);
     };
   }, [createRipple, createTripleBurst]);
 
@@ -187,7 +143,6 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
       setRipples((prev) =>
         prev
           .map((ripple) => {
-            const age = Date.now() - ripple.timestamp;
             const isEarlyBurst = ripple.isClick && ripple.burstIndex !== undefined;
             
             // Different growth rates for burst layers
@@ -263,59 +218,38 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
         );
       })}
 
-      {/* Mouse/Touch Glow - Smooth interpolated follow */}
-      {!isMobile && (
-        <>
-          <div
-            className="absolute pointer-events-none rounded-full"
-            style={{
-              left: mousePos.x - 120,
-              top: mousePos.y - 120,
-              width: 240,
-              height: 240,
-              background: `radial-gradient(circle, hsl(var(--primary) / 0.12) 0%, hsl(var(--primary) / 0.05) 40%, transparent 70%)`,
-              opacity: isHovering ? 1 : 0,
-              transform: 'translateZ(0)',
-              transition: 'opacity 0.2s ease-out',
-              willChange: 'transform, opacity',
-            }}
-          />
+      {/* Mouse Glow - Smooth interpolated follow */}
+      <div
+        className="absolute pointer-events-none rounded-full"
+        style={{
+          left: mousePos.x - 120,
+          top: mousePos.y - 120,
+          width: 240,
+          height: 240,
+          background: `radial-gradient(circle, hsl(var(--primary) / 0.12) 0%, hsl(var(--primary) / 0.05) 40%, transparent 70%)`,
+          opacity: isHovering ? 1 : 0,
+          transform: 'translateZ(0)',
+          transition: 'opacity 0.2s ease-out',
+          willChange: 'transform, opacity',
+        }}
+      />
 
-          {/* Cursor Core Glow */}
-          <div
-            className="absolute pointer-events-none rounded-full"
-            style={{
-              left: mousePos.x - 20,
-              top: mousePos.y - 20,
-              width: 40,
-              height: 40,
-              background: `radial-gradient(circle, hsl(var(--primary) / 0.4) 0%, hsl(var(--primary) / 0.15) 50%, transparent 70%)`,
-              boxShadow: "0 0 30px hsl(var(--primary) / 0.4), 0 0 60px hsl(var(--primary) / 0.2)",
-              opacity: isHovering ? 1 : 0,
-              transform: 'translateZ(0)',
-              transition: 'opacity 0.15s ease-out',
-              willChange: 'transform, opacity',
-            }}
-          />
-        </>
-      )}
-
-      {/* Mobile Touch Indicator */}
-      {isMobile && isHovering && (
-        <div
-          className="absolute pointer-events-none rounded-full"
-          style={{
-            left: targetMousePos.x - 30,
-            top: targetMousePos.y - 30,
-            width: 60,
-            height: 60,
-            background: `radial-gradient(circle, hsl(var(--primary) / 0.3) 0%, transparent 70%)`,
-            boxShadow: "0 0 40px hsl(var(--primary) / 0.3)",
-            transform: 'translateZ(0)',
-            willChange: 'transform, opacity',
-          }}
-        />
-      )}
+      {/* Cursor Core Glow */}
+      <div
+        className="absolute pointer-events-none rounded-full"
+        style={{
+          left: mousePos.x - 20,
+          top: mousePos.y - 20,
+          width: 40,
+          height: 40,
+          background: `radial-gradient(circle, hsl(var(--primary) / 0.4) 0%, hsl(var(--primary) / 0.15) 50%, transparent 70%)`,
+          boxShadow: "0 0 30px hsl(var(--primary) / 0.4), 0 0 60px hsl(var(--primary) / 0.2)",
+          opacity: isHovering ? 1 : 0,
+          transform: 'translateZ(0)',
+          transition: 'opacity 0.15s ease-out',
+          willChange: 'transform, opacity',
+        }}
+      />
     </div>
   );
 };

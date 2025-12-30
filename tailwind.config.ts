@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
 
+// Add marquee animation for TrustSection
+
 // Add dash animation keyframe
 
 export default {

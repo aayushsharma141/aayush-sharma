@@ -5,20 +5,16 @@ import Services from "@/components/Services";
 import Portfolio from "@/components/Portfolio";
 import About from "@/components/About";
 import Testimonials from "@/components/Testimonials";
-import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import FixedSocialBar from "@/components/FixedSocialBar";
-import FloatingParticles from "@/components/FloatingParticles";
 import SectionNavDots from "@/components/SectionNavDots";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import Process from "@/components/Process";
 import TrustSection from "@/components/TrustSection";
-import CTASection from "@/components/CTASection";
 import { BeforeAfterShowcase } from "@/components/BeforeAfterShowcase";
 import ScrollProgress from "@/components/ScrollProgress";
-import CostCalculator from "@/components/CostCalculator";
-import FAQ from "@/components/FAQ";
-import Team from "@/components/Team";
+import WelcomePrompt from "@/components/WelcomePrompt";
+import CTAContact from "@/components/CTAContact";
 
 const Index = () => {
   return (
@@ -47,25 +43,21 @@ const Index = () => {
       </a>
       
       <ScrollProgress />
-      <FloatingParticles count={30} />
+      <WelcomePrompt />
       <main id="main-content" className="min-h-screen relative z-10">
         <FixedSocialBar />
         <SectionNavDots />
         <WhatsAppButton />
         <Navbar />
         <Hero />
+        <About />
         <Services />
         <Process />
         <Portfolio />
-        <BeforeAfterShowcase />
-        <CostCalculator />
         <TrustSection />
-        <About />
-        <Team />
+        <BeforeAfterShowcase />
         <Testimonials />
-        <CTASection />
-        <FAQ />
-        <Contact />
+        <CTAContact />
         <Footer />
       </main>
     </>
