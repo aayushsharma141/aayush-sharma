@@ -14,7 +14,6 @@ import ContactPage from "./pages/ContactPage";
 import ProjectPage from "./pages/ProjectPage";
 import NotFound from "./pages/NotFound";
 import PageTransition from "./components/PageTransition";
-import ScrollToTopOnRoute from "./components/ScrollToTopOnRoute";
 
 const queryClient = new QueryClient();
 
@@ -47,7 +46,6 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <ScrollToTopOnRoute />
           <AnimatedRoutes />
         </BrowserRouter>
       </TooltipProvider>

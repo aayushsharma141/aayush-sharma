@@ -145,10 +145,6 @@ export default {
 					opacity: '1',
 					transform: 'translateX(0) rotate(0deg)'
 				}
-			},
-			'marquee': {
-				'0%': { transform: 'translateX(0)' },
-				'100%': { transform: 'translateX(-50%)' }
 			}
 		},
 		animation: {
@@ -160,8 +156,7 @@ export default {
 			'logo-spin': 'logo-spin 12s linear infinite',
 			'logo-pulse-glow': 'logo-pulse-glow 2.5s ease-in-out infinite',
 			'logo-breathe': 'logo-breathe 3s ease-in-out infinite',
-			'text-shimmer': 'text-shimmer 4s ease-in-out infinite',
-			'marquee': 'marquee 30s linear infinite'
+			'text-shimmer': 'text-shimmer 4s ease-in-out infinite'
 		},
   		boxShadow: {
   			'2xs': 'var(--shadow-2xs)',
