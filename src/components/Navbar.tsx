@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone, ChevronDown, Home, Building2, Sofa, UtensilsCrossed, Lamp, MessageCircle } from "lucide-react";
+import { Menu, X, Phone, ChevronDown, Home, Building2, Sofa, UtensilsCrossed, Lamp, MessageCircle, Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoIcon from "@/assets/logo-icon.png";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import CostCalculatorModal from "@/components/CostCalculatorModal";
 
 const servicesMenu = {
   residential: [
@@ -30,6 +31,7 @@ const Navbar = () => {
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [isHoveringInterior, setIsHoveringInterior] = useState(false);
   const [animationKey, setAnimationKey] = useState(0);
+  const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
   const location = useLocation();
 
   // Restart animation every 2 seconds
@@ -315,13 +317,13 @@ const Navbar = () => {
                 +91 7909041132
               </span>
             </a>
-            <Link to="/contact-us">
-              <Button 
-                className="px-6 py-5 rounded-xl shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 transition-all duration-500 hover:-translate-y-0.5 font-medium"
-              >
-                Book Consultation
-              </Button>
-            </Link>
+            <Button 
+              onClick={() => setIsCalculatorOpen(true)}
+              className="px-6 py-5 rounded-xl shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 transition-all duration-500 hover:-translate-y-0.5 font-medium gap-2"
+            >
+              <Calculator className="w-4 h-4" />
+              Get Free Estimate
+            </Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -385,11 +387,16 @@ const Navbar = () => {
                         <span>+91 7909041132</span>
                       </div>
                     </a>
-                    <Link to="/contact-us" onClick={() => setIsOpen(false)}>
-                      <Button className="w-full shadow-lg py-6 rounded-xl text-base">
-                        Book Consultation
-                      </Button>
-                    </Link>
+                    <Button 
+                      onClick={() => {
+                        setIsOpen(false);
+                        setIsCalculatorOpen(true);
+                      }}
+                      className="w-full shadow-lg py-6 rounded-xl text-base gap-2"
+                    >
+                      <Calculator className="w-5 h-5" />
+                      Get Free Estimate
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -397,6 +404,12 @@ const Navbar = () => {
           )}
         </AnimatePresence>
       </nav>
+      
+      {/* Cost Calculator Modal */}
+      <CostCalculatorModal 
+        isOpen={isCalculatorOpen} 
+        onClose={() => setIsCalculatorOpen(false)} 
+      />
     </header>
   );
 };

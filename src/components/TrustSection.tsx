@@ -133,7 +133,7 @@ const TrustSection = () => {
             <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-foreground to-transparent z-10" />
             
             {/* Marquee Track */}
-            <div className="flex animate-marquee-slow">
+            <div className="flex animate-marquee">
               {/* First set */}
               {brandPartners.map((partner, index) => (
                 <div
