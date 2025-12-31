@@ -36,10 +36,6 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // On mobile, don't render any ripple effects - return early
-  if (isMobile) {
-    return null;
-  }
 
   const createRipple = useCallback((x: number, y: number, isClick: boolean = false, burstIndex: number = 0) => {
     const now = Date.now();
@@ -75,6 +71,8 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
   }, [createRipple]);
 
   useEffect(() => {
+    if (isMobile) return;
+
     const heroSection = document.getElementById("home");
     if (!heroSection) return;
 
@@ -83,7 +81,7 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
       return {
         x: clientX - rect.left,
         y: clientY - rect.top,
-        isInBounds: clientX >= rect.left && clientX <= rect.right && 
+        isInBounds: clientX >= rect.left && clientX <= rect.right &&
                     clientY >= rect.top && clientY <= rect.bottom,
       };
     };
@@ -91,7 +89,7 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
     // Desktop mouse handlers only
     const handleMouseMove = (e: MouseEvent) => {
       const { x, y, isInBounds } = getPositionInHero(e.clientX, e.clientY);
-      
+
       if (isInBounds) {
         setTargetMousePos({ x, y });
         setIsHovering(true);
@@ -107,7 +105,7 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
       if (target.closest('button, a, input, [role="button"]')) {
         return;
       }
-      
+
       const { x, y, isInBounds } = getPositionInHero(e.clientX, e.clientY);
       if (isInBounds) {
         createTripleBurst(x, y);
@@ -128,10 +126,12 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
       document.removeEventListener("click", handleClick);
       heroSection.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [createRipple, createTripleBurst]);
+  }, [createRipple, createTripleBurst, isMobile]);
 
   // Smooth animation using requestAnimationFrame with interpolation
   useEffect(() => {
+    if (isMobile) return;
+
     const animate = () => {
       // Smooth mouse position interpolation (lag-free tracking)
       setMousePos((prev) => ({
@@ -144,14 +144,14 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
         prev
           .map((ripple) => {
             const isEarlyBurst = ripple.isClick && ripple.burstIndex !== undefined;
-            
+
             // Different growth rates for burst layers
             let growthRate = ripple.isClick ? 14 : 6;
             if (isEarlyBurst && ripple.burstIndex === 1) growthRate = 10;
             if (isEarlyBurst && ripple.burstIndex === 2) growthRate = 8;
-            
+
             const fadeRate = ripple.isClick ? 0.01 : 0.018;
-            
+
             return {
               ...ripple,
               size: ripple.size + growthRate,
@@ -171,10 +171,11 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
         cancelAnimationFrame(animationFrame.current);
       }
     };
-  }, [targetMousePos]);
+  }, [targetMousePos, isMobile]);
+
+  if (isMobile) return null;
 
   return (
-    <div 
       ref={containerRef} 
       className={`absolute inset-0 z-[2] overflow-hidden pointer-events-none ${className}`}
     >
