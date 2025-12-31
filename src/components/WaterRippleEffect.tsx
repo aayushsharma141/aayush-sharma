@@ -176,6 +176,7 @@ const WaterRippleEffect = ({ className = "" }: WaterRippleEffectProps) => {
   if (isMobile) return null;
 
   return (
+    <div 
       ref={containerRef} 
       className={`absolute inset-0 z-[2] overflow-hidden pointer-events-none ${className}`}
     >
