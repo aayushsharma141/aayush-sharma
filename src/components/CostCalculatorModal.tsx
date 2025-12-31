@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { 
   Home, 
   UtensilsCrossed, 
@@ -116,9 +115,9 @@ const CostCalculatorModal = ({ isOpen, onClose }: CostCalculatorModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto p-0">
-        <VisuallyHidden>
+        <DialogHeader className="sr-only">
           <DialogTitle>Cost Estimator</DialogTitle>
-        </VisuallyHidden>
+        </DialogHeader>
         
         {/* Header */}
         <div className="sticky top-0 bg-background border-b border-border p-4 flex items-center justify-between z-10">
