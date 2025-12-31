@@ -48,15 +48,15 @@ const WelcomePrompt = () => {
   if (!isOpen) return null;
 
   return (
-    <>
+    <div className="fixed inset-0 z-50">
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-foreground/60 backdrop-blur-sm z-50 animate-fade-in"
+        className="absolute inset-0 bg-foreground/60 backdrop-blur-sm animate-fade-in"
         onClick={handleClose}
       />
 
       {/* Modal */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+      <div className="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
         <div 
           className={cn(
             "relative w-full max-w-md bg-background border border-border rounded-2xl shadow-2xl pointer-events-auto",
@@ -134,7 +134,7 @@ const WelcomePrompt = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
