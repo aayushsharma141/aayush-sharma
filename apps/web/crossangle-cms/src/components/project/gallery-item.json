@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_project_gallery_items",
+  "info": {
+    "displayName": "Gallery Item"
+  },
+  "options": {},
+  "attributes": {
+    "room": {
+      "type": "string"
+    },
+    "images": {
+      "type": "json"
+    }
+  },
+  "config": {}
+}
